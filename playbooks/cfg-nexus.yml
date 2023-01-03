@@ -97,21 +97,14 @@
       apt:
         name: samba
 
-    - name: Update samba config - remove password requirement
-      lineinfile:
+    - name: Update samba config - global settings
+      blockinfile:
         path: /etc/samba/smb.conf
         insertafter: '\[global\]'
-        line: '   null passwords = yes'
-
-    - name: Update samba config - limit to internal vlans
-      lineinfile:
-        path: /etc/samba/smb.conf
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-      loop:
-        - { regexp: '^   interfaces =', line: '   interfaces = eth0' }
-        - { regexp: '^\;   interfaces = 127.0.0.0/8 eth0', line: '   interfaces = eth0' }
-        - { regexp: '^\;   bind interfaces only = yes', line: '   bind interfaces only = yes'}
+        block: |
+             null passwords = yes
+             interfaces = eth0
+             bind interfaces only = yes
 
     - name: Update samba config - add public share
       blockinfile:
