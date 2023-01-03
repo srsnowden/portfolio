@@ -1,0 +1,52 @@
+﻿---
+
+- hosts: localhost
+
+  tasks:
+    - name: Set hostname
+      ansible.builtin.hostname:
+        name: nexus
+
+    - name: Install vlan
+      ansible.builtin.apt:
+        name: vlan
+
+    - name: Add vlan file
+      copy:
+        dest: /etc/network/interfaces.d/vlans
+        content: |
+          auto eth0.20
+          iface eth0.20 inet manual
+            vlan-raw-device eth0
+
+          auto eth0.30
+          iface eth0.30 inet manual
+            vlan-raw-device eth0
+
+          auto eth0.40
+          iface eth0.40 inet manual
+            vlan-raw-device eth0
+
+    - name: Update dhcpcd.conf
+      blockinfile:
+        path: /etc/dhcpcd.conf
+        block: |
+          interface eth0
+          static ip_address=192.168.10.20/24
+          static routers=192.168.10.1
+          static domain_name_servers=192.168.10.100
+
+          interface eth0.20
+          static ip_address=192.168.20.5/24
+          static routers=192.168.20.1
+          static domain_name_servers=192.168.10.100
+
+          interface eth0.30
+          static ip_address=192.168.30.5/24
+          static routers=192.168.30.1
+          static domain_name_servers=192.168.10.100
+
+          interface eth0.40
+          static ip_address=192.168.40.5/24
+          static routers=192.168.40.1
+          static domain_name_servers=192.168.10.100

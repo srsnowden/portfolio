@@ -1,0 +1,10 @@
+﻿---
+
+- hosts: localhost
+
+  tasks:
+    - name: Git update
+      git:
+        repo: git@github.com:srsnowden/serenity.git
+        dest: /repos/serenity
+        key_file: /home/aragorn/.ssh/id_ed25519
