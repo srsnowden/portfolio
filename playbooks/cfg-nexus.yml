@@ -97,15 +97,21 @@
       apt:
         name: samba
 
-    - name: Update samba config - add public share
+    - name: Update samba config - global config
+      blockinfile:
+        path: /etc/samba/smb.conf
+        insertafter: '^\[global\]'
+        marker: ""
+        block: |
+              null passwords = yes
+              interfaces = eth0
+              bind interfaces only = yes
+
+
+    - name: Update samba config - share info
       blockinfile:
         path: /etc/samba/smb.conf
         block: |
-          null passwords = yes
-          interfaces = eth0
-          bind interfaces only = yes
-
-
           [share]
             path = /mnt/ark01/share
             writable = yes
