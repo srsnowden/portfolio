@@ -81,7 +81,7 @@
         shell: /sbin/nologin
         create_home: no
 
-    - name: Chown /mnt/ark01/share to public share user
+    - name: Chown share directories to share user
       file:
         path: "{{ item }}"
         state: directory
@@ -97,60 +97,61 @@
       apt:
         name: samba
 
-    - name: Update samba config - global config
+    - name: Update samba config - global settings
       blockinfile:
         path: /etc/samba/smb.conf
         insertafter: '\[global\]'
-        marker: "# {mark} TEST"
+        marker: "# {mark} ANSIBLE GLOBAL CONFIG"
         block: |
               null passwords = yes
               interfaces = eth0
               bind interfaces only = yes
 
 
-    - name: Update samba config - share info
+    - name: Update samba config - share settings
       blockinfile:
         path: /etc/samba/smb.conf
+        marker: "# {mark} ANSIBLE SHARE CONFIG"
         block: |
           [share]
-            path = /mnt/ark01/share
-            writable = yes
-            printable = no
-            public = yes
-            create mask = 0777
-            directory mask = 0777
-            force user = pippin
-            force group = pippin
+              path = /mnt/ark01/share
+              writable = yes
+              printable = no
+              public = yes
+              create mask = 0777
+              directory mask = 0777
+              force user = pippin
+              force group = pippin
 
           [archive]
-            path = /mnt/ark01/archive
-            writable = yes
-            printable = no
-            public = yes
-            create mask = 0777
-            directory mask = 0777
-            force user = pippin
-            force group = pippin
+              path = /mnt/ark01/archive
+              writable = yes
+              printable = no
+              public = yes
+              create mask = 0777
+              directory mask = 0777
+              force user = pippin
+              force group = pippin
 
           [backups]
-            path = /mnt/ark01/proxstore/backups
-            writable = yes
-            printable = no
-            public = yes
-            create mask = 0777
-            directory mask = 0777
-            force user = pippin
-            force group = pippin
+              path = /mnt/ark01/proxstore/backups
+              writable = yes
+              printable = no
+              public = yes
+              create mask = 0777
+              directory mask = 0777
+              force user = pippin
+              force group = pippin
 
           [templates]
-            path = /mnt/ark01/proxstore/templates
-            writable = yes
-            printable = no
-            public = yes
-            create mask = 0777
-            directory mask = 0777
-            force user = pippin
-            force group = pippin
+              path = /mnt/ark01/proxstore/templates
+              writable = yes
+              printable = no
+              public = yes
+              create mask = 0777
+              directory mask = 0777
+              force user = pippin
+              force group = pippin
 
     - name: Create samba user - public share
       shell: "smbpasswd -n -a pippin"
@@ -161,7 +162,7 @@
         state: restarted
         name: smbd
 
-    - name: Enable avahi mdns reflector
+    - name: Update avahi config - enable mdns reflector
       lineinfile:
         path: /etc/avahi/avahi-daemon.conf
         regexp: '^\#enable-reflector=no'
