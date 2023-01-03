@@ -53,3 +53,4 @@
 
     - name: Reboot to apply network changes
       reboot:
+      delegate_to: localhost
