@@ -101,7 +101,7 @@
       blockinfile:
         path: /etc/samba/smb.conf
         insertafter: '[global]'
-        marker: ""
+        marker: "# {mark} TEST"
         block: |
               null passwords = yes
               interfaces = eth0
