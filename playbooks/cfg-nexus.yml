@@ -57,3 +57,47 @@
         src: LABEL=ark01
         fstype: ext4
         state: mounted
+
+    - name: Add public share user
+      user:
+        name: pippin
+        groups: pippin
+        password: breakfast
+        shell: /sbin/nologin
+        create_home: no
+
+    - name: Change share permissions to user
+      file:
+        path: /mnt/ark01/share
+        state: directory
+        recurse: yes
+        owner: pippin
+        group: pippin
+
+    - name: Install samba
+      apt:
+        name: samba
+
+    - name: Update samba config
+      blockinfile:
+        path: /etc/samba/smb.conf
+        block: |
+          [share]
+          path = /mnt/ark01/share
+          writable = yes
+          printable = no
+          public = yes
+          create mask = 0777
+          directory mask = 0777
+          valid users = pippin
+          force user = pippin
+          force group = pippin
+
+    - name: Create samba user
+      shell: "(echo breakfast; echo breakfast) | smbpasswd -s -a pippin"
+      become: true
+
+    - name: Restart samba service
+      systemd:
+        state: restarted
+        name: samba
