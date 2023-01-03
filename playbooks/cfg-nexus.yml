@@ -100,7 +100,7 @@
     - name: Update samba config - global config
       blockinfile:
         path: /etc/samba/smb.conf
-        insertafter: '^\[global\]'
+        insertafter: '[global]'
         marker: ""
         block: |
               null passwords = yes
