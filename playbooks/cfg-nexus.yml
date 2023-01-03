@@ -12,7 +12,7 @@
         path: /etc/hosts
         line: '127.0.0.1    nexus'
 
-    - name: Get authorized keys from git
+    - name: Copy authorized keys from git
       ansible.posix.authorized_key:
         user: aragorn
         state: present
