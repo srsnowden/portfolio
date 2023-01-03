@@ -103,9 +103,9 @@
         insertafter: '\[global\]'
         marker: "# {mark} ANSIBLE GLOBAL CONFIG"
         block: |
-              null passwords = yes
-              interfaces = eth0
-              bind interfaces only = yes
+         null passwords = yes
+         interfaces = eth0
+         bind interfaces only = yes
 
 
     - name: Update samba config - share settings
