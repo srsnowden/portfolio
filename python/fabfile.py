@@ -19,3 +19,5 @@ ctx.run('mkdir /home/' + username + '/.ssh')
 ctx.put(gitkey, remote=gitkeypath)
 ctx.run('/home/' + username + '/.local/bin/ansible localhost -m ansible.builtin.git -a "repo=git@github.com:srsnowden/serenity.git clone=yes dest=/repos/serenity key_file=' + gitkeypath + ' accept_newhostkey=true" -b')
 ctx.close()
+
+# add shutdown line

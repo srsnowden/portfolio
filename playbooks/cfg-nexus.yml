@@ -51,6 +51,9 @@
           static routers=192.168.40.1
           static domain_name_servers=192.168.10.100
 
-    - name: Reboot to apply network changes
-      reboot:
-      delegate_to: localhost
+    - name: Mount external drive
+      ansible.posix.mount:
+        path: /mnt/ark01
+        src: LABEL=ark01
+        fstype: ext4
+        state: mounted
