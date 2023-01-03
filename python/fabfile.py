@@ -1,5 +1,4 @@
 from fabric import Connection
-import time
 
 addr = input('Enter IP address: ')
 username = "aragorn"
@@ -21,8 +20,5 @@ ctx.put(gitkey, remote=gitkeypath)
 ctx.run('/home/' + username + '/.local/bin/ansible localhost -m ansible.builtin.git -a "repo=git@github.com:srsnowden/serenity.git clone=yes dest=/repos/serenity key_file=' + gitkeypath + ' accept_newhostkey=true" -b')
 ctx.run('/home/' + username + '/.local/bin/ansible-playbook /repos/serenity/playbooks/cfg-nexus.yml -b')
 print("Update completed, restarting to apply networking changes...")
-time.sleep(5)
 ctx.sudo('shutdown -r now')
 ctx.close()
-
-# add shutdown line
