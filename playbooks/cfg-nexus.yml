@@ -18,6 +18,12 @@
         state: present
         key: "{{ lookup('url', 'https://github.com/srsnowden.keys', split_lines=False) }}"
 
+    - name: Disable ssh password authentication
+      lineinfile:
+        path: /etc/ssh/sshd.config
+        regexp: '^\#PasswordAuthentication yes'
+        line: PasswordAuthentication no
+
     - name: Install vlan
       ansible.builtin.apt:
         name: vlan
@@ -96,6 +102,15 @@
         path: /etc/samba/smb.conf
         insertafter: '\[global\]'
         line: 'null passwords = yes'
+
+    - name: Update samba config - limit to internal vlans
+      lineinfile:
+        path: /etc/samba/smb.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regexp: '^\;   interfaces = 127.0.0.0/8 eth0', line: 'interfaces = eth0, eth0.20' }
+        - { regexp: '^\;   bind interfaces only = yes', line: '   bind interfaces only = yes'}
 
     - name: Update samba config - add public share
       blockinfile:
