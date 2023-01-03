@@ -20,7 +20,7 @@
 
     - name: Disable ssh password authentication
       lineinfile:
-        path: /etc/ssh/sshd.config
+        path: /etc/ssh/sshd_config
         regexp: '^\#PasswordAuthentication yes'
         line: PasswordAuthentication no
 
