@@ -62,7 +62,7 @@
       user:
         name: pippin
         groups: pippin
-        password: breakfast
+        password: $6$8OT8wX1XbUwuIKvt$bS8a6t7Ljn9TasjFCcTFnYgevSblpNbclg.cSenXs41rY/uCN37MVBF/nrG8SAwax0H4zBsAJlirc9nk93.MO/
         shell: /sbin/nologin
         create_home: no
 
