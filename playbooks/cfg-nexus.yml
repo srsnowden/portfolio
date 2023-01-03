@@ -101,7 +101,7 @@
       lineinfile:
         path: /etc/samba/smb.conf
         insertafter: '\[global\]'
-        line: 'null passwords = yes'
+        line: '   null passwords = yes'
 
     - name: Update samba config - limit to internal vlans
       lineinfile:
@@ -109,7 +109,8 @@
         regexp: "{{ item.regexp }}"
         line: "{{ item.line }}"
       loop:
-        - { regexp: '^\;   interfaces = 127.0.0.0/8 eth0', line: 'interfaces = eth0, eth0.20' }
+        - { regexp: '^   interfaces =', line: '   interfaces = eth0' }
+        - { regexp: '^\;   interfaces = 127.0.0.0/8 eth0', line: '   interfaces = eth0' }
         - { regexp: '^\;   bind interfaces only = yes', line: '   bind interfaces only = yes'}
 
     - name: Update samba config - add public share
