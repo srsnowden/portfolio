@@ -12,7 +12,7 @@
         path: /etc/hosts
         line: '127.0.0.1    nexus'
 
-    - name: Copy authorized keys from git
+    - name: Pull authorized keys from git
       ansible.posix.authorized_key:
         user: aragorn
         state: present
@@ -22,7 +22,7 @@
       ansible.builtin.apt:
         name: vlan
 
-    - name: Add vlan file
+    - name: Update vlans config - add vlans for mdns repeater
       copy:
         dest: /etc/network/interfaces.d/vlans
         content: |
@@ -38,7 +38,7 @@
           iface eth0.40 inet manual
             vlan-raw-device eth0
 
-    - name: Update dhcpcd.conf
+    - name: Update dhcpcd config - add static addresses
       blockinfile:
         path: /etc/dhcpcd.conf
         block: |
@@ -68,27 +68,36 @@
         src: LABEL=ark01
         fstype: ext4
         state: mounted
-
+ 
     - name: Add public share user
       user:
         name: pippin
-        password: $6$8OT8wX1XbUwuIKvt$bS8a6t7Ljn9TasjFCcTFnYgevSblpNbclg.cSenXs41rY/uCN37MVBF/nrG8SAwax0H4zBsAJlirc9nk93.MO/
         shell: /sbin/nologin
         create_home: no
 
-    - name: Change share permissions to user
+    - name: Chown /mnt/ark01/share to public share user
       file:
-        path: /mnt/ark01/share
+        path: "{{ item }}"
         state: directory
         recurse: yes
         owner: pippin
         group: pippin
+      loop:
+        - /mnt/ark01/share
+        - /mnt/ark01/proxstore
+        - /mnt/ark01/archive
 
     - name: Install samba
       apt:
         name: samba
 
-    - name: Update samba config
+    - name: Update samba config - remove password requirement
+      lineinfile:
+        path: /etc/samba/smb.conf
+        insertafter: '\[global\]'
+        line: 'null passwords = yes'
+
+    - name: Update samba config - add public share
       blockinfile:
         path: /etc/samba/smb.conf
         block: |
@@ -102,8 +111,38 @@
           force user = pippin
           force group = pippin
 
-    - name: Create samba user
-      shell: "(echo breakfast; echo breakfast) | smbpasswd -s -a pippin"
+          [archive]
+          path = /mnt/ark01/archive
+          writable = yes
+          printable = no
+          public = no
+          create mask = 0777
+          directory mask = 0777
+          force user = pippin
+          force group = pippin
+
+          [backups]
+          path = /mnt/ark01/proxstore/backups
+          writable = yes
+          printable = no
+          public = no
+          create mask = 0777
+          directory mask = 0777
+          force user = pippin
+          force group = pippin
+
+          [templates]
+          path = /mnt/ark01/proxstore/templates
+          writable = yes
+          printable = no
+          public = no
+          create mask = 0777
+          directory mask = 0777
+          force user = pippin
+          force group = pippin
+
+    - name: Create samba user - public share
+      shell: "smbpasswd -n -a pippin"
       become: true
 
     - name: Restart samba service
