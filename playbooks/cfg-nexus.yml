@@ -14,9 +14,9 @@
 
     - name: Get authorized keys from git
       ansible.posix.authorized_key:
-      user: aragorn
-      state: present
-      key: "{{ lookup('url', 'https://github.com/srsnowden.keys', split_lines=False) }}"
+        user: aragorn
+        state: present
+        key: "{{ lookup('url', 'https://github.com/srsnowden.keys', split_lines=False) }}"
 
     - name: Install vlan
       ansible.builtin.apt:
