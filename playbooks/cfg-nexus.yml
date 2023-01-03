@@ -103,7 +103,7 @@
     - name: Restart samba service
       systemd:
         state: restarted
-        name: samba
+        name: smdb
 
     - name: Enable avahi mdns reflector
       lineinfile:
