@@ -7,6 +7,11 @@
       ansible.builtin.hostname:
         name: nexus
 
+    - name: Update host file
+      lineinfile:
+        path: /etc/hosts
+        line: '127.0.0.1    nexus'
+
     - name: Install vlan
       ansible.builtin.apt:
         name: vlan
@@ -88,7 +93,6 @@
           public = yes
           create mask = 0777
           directory mask = 0777
-          valid users = pippin
           force user = pippin
           force group = pippin
 
@@ -100,3 +104,14 @@
       systemd:
         state: restarted
         name: samba
+
+    - name: Enable avahi mdns reflector
+      lineinfile:
+        path: /etc/avahi/avahi-daemon.conf
+        regexp: '^\#enable-reflector=no'
+        line: enable-reflector=yes
+
+    - name: Restart avahi service
+      systemd:
+        state: restarted
+        name: avahi-daemon
