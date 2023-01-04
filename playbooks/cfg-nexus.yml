@@ -21,6 +21,12 @@
         - '^\#PasswordAuthentication*'
         - '^PasswordAuthentication*'
 
+    - name: Copy ansible host file
+      copy:
+        src: /repos/serenity/config/hosts
+        dest: /etc/ansible/hosts
+
+
     - name: Install vlan
       apt:
         name: vlan
