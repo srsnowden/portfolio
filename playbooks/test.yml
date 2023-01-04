@@ -8,4 +8,3 @@
       copy:
         dest: ~/test
         content: "{{ lookup('url', 'https://github.com/srsnowden.keys', wantlist=True) }}"
-        debugger: on_failed
