@@ -12,17 +12,11 @@
         path: /etc/hosts
         line: '127.0.0.1    nexus'
 
-    - name: Pull authorized keys from git
-      ansible.posix.authorized_key:
-        user: aragorn
-        state: present
-        key: "{{ lookup('url', 'https://github.com/srsnowden.keys', split_lines=False) | regex_search('^ssh-rsa*')}}"
-
     - name: Disable ssh password authentication
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: "{{ item }}"
-        line: PasswordAuthentication yes
+        line: PasswordAuthentication no
       loop:
         - '^\#PasswordAuthentication*'
         - '^PasswordAuthentication*'
