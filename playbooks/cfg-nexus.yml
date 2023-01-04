@@ -24,8 +24,8 @@
         regexp: "{{ item }}"
         line: PasswordAuthentication yes
       loop:
-        - '^\#PasswordAuthentication'
-        - '^PasswordAuthentication'
+        - '^\#PasswordAuthentication*'
+        - '^PasswordAuthentication*'
 
     - name: Install vlan
       apt:
