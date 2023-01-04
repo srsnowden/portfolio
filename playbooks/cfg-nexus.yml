@@ -16,7 +16,7 @@
       ansible.posix.authorized_key:
         user: aragorn
         state: present
-        key: "{{ lookup('url', 'https://github.com/srsnowden.keys', '^ssh-rsa') }}"
+        key: "{{ lookup('url', 'https://github.com/srsnowden.keys', split_lines=False) | regex_search('^ssh-rsa')}}"
 
     - name: Disable ssh password authentication
       lineinfile:
