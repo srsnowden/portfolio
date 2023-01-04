@@ -21,6 +21,11 @@
         - '^\#PasswordAuthentication*'
         - '^PasswordAuthentication*'
 
+    - name: Create ansible directory
+      file:
+        path: /etc/ansible
+        state: directory
+
     - name: Copy ansible host file
       copy:
         src: /repos/serenity/config/hosts
