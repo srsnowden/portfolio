@@ -1,13 +1,13 @@
 [rpi]
-nexus 192.168.10.20
-palantir 192.168.50.10
+nexus ansible_host=192.168.10.20
+palantir ansible_host=192.168.50.10
 
 [pxe-host]
-boxy 192.168.10.30
-cubey 192.168.10.40
+boxy ansible_host=192.168.10.30
+cubey ansible_host=192.168.10.40
 
 [pxe-cont]
-pihole 192.168.10.100
-vault 192.168.10.105
-media 192.168.10.110
-mail 192.168.10.115
+pihole ansible_host=192.168.10.100
+vault ansible_host=192.168.10.105
+media ansible_host=192.168.10.110
+mail ansible_host=192.168.10.115
