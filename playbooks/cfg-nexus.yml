@@ -159,7 +159,7 @@
               directory mask = 0777
               force user = pippin
               force group = pippin
-        notify: "restart samba"
+      notify: "restart samba"
 
     - name: Create samba user - public share
       shell: "smbpasswd -n -a pippin"
