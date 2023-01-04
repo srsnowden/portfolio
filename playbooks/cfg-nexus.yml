@@ -113,7 +113,7 @@
          null passwords = yes
          interfaces = eth0
          bind interfaces only = yes
-      notify: restart samba
+      notify: "restart samba"
 
     - name: Update samba config - share settings
       blockinfile:
@@ -159,7 +159,7 @@
               directory mask = 0777
               force user = pippin
               force group = pippin
-        notify: restart samba
+        notify: "restart samba"
 
     - name: Create samba user - public share
       shell: "smbpasswd -n -a pippin"
@@ -170,7 +170,7 @@
         path: /etc/avahi/avahi-daemon.conf
         regexp: '^\#enable-reflector=no'
         line: enable-reflector=yes
-      notify: restart avahi
+      notify: "restart avahi"
 
   handlers:
     - name: restart samba
