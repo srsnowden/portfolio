@@ -13,14 +13,14 @@
       lineinfile:
         path: /etc/hosts
         line: '127.0.0.1    palantir'
-        become: true
+      become: true
 
     - name: Disable ssh password authentication
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: "{{ item }}"
         line: PasswordAuthentication no
-        become: true
+      become: true
       loop:
         - '^\#PasswordAuthentication*'
         - '^PasswordAuthentication*'
@@ -40,17 +40,17 @@
         name: sybil
         append: true
         groups: sudo
-        become: true
+      become: true
 
     - name: Create key directory for ansible user
       file:
         path: /home/sybil/.ssh
         state: directory
-        become: true
+      become: true
 
     - name: Add ansible user public key
       ansible.posix.authorized_key:
         user: sybil
         state: present
         key: https://github.com/srsnowden.keys
-        become: true
+      become: true
