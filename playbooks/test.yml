@@ -7,4 +7,4 @@
     - name: Key test
       copy:
         dest: ~/test
-        content: "{{ lookup('url', 'https://github.com/srsnowden.keys', wantlist=True) }}"
+        content: {{ lookup('url', 'https://github.com/srsnowden.keys', wantlist=True) }}
