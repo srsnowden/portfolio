@@ -8,7 +8,6 @@
     - name: Set hostname
       hostname:
         name: palantir
-        become: true
 
     - name: Update host file
       lineinfile:
@@ -30,13 +29,11 @@
       file:
         path: /home/aragorn/.ssh
         state: directory
-        become: true
 
     - name: Copy public key for admin user
       copy:
         src: /home/aragorn/.ssh/authorized_keys
         dest: /home/aragorn/.ssh/authorized_keys
-        become: true
 
     - name: Create ansible user
       user:
