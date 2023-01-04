@@ -172,6 +172,10 @@
         line: enable-reflector=yes
       notify: "restart avahi"
 
+    - name: Instal sshpass
+      apt:
+        name: sshpass
+
   handlers:
     - name: restart samba
       systemd:
