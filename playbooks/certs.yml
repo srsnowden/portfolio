@@ -33,7 +33,7 @@
     - name: generate csr
       openssl_csr:
         path: "{{ certdir }}/{{ keyname }}.csr"
-        privatekey_path: "{{ certdir }}/acme-key.pem"
+        privatekey_path: "{{ certdir }}/{{ keyname }}.pem"
         common_name: "{{ crt_cn }}"
       become: true
 
@@ -83,7 +83,7 @@
         account_api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
         zone: "{{ cloudflare_zone }}"
-        record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
+        record: "{{ challenge.challenge_data[crt_cn]['dns-01'].record }}"
         type: TXT
         state: absent
       when: challenge is changed
