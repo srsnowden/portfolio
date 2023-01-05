@@ -22,17 +22,20 @@
       openssl_privatekey:
         path: "{{ certdir }}/acme-key.pem"
         size: 4096
+      become: true
 
     - name: generate signing key
       openssl_privatekey:
         path: "{{ certdir }}/{{ keyname }}.pem"
         size: 4096
+      become: true
 
     - name: generate csr
       openssl_csr:
         path: "{{ certdir }}/{{ keyname }}.csr"
         privatekey_path: "{{ certdir }}/acme-key.pem"
         common_name: "{{ crt_cn }}"
+      become: true
 
     - name: create acme challenge
       acme_certificate:
@@ -45,6 +48,7 @@
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
       register: challenge
+      become: true
 
     - name: create cloudflare TXT record
       cloudflare_dns:
@@ -71,6 +75,7 @@
         remaining_days: 10
         data: "{{ challenge }}"
       when: challenge is changed
+      become: true
 
     - name: delete cloudflare record
       cloudflare_dns:
@@ -87,3 +92,4 @@
         path: "{{ certdir }}/acme-key.pem"
         state: absent
       when: challenge is changed
+      become: true
