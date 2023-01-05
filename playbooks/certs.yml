@@ -47,8 +47,8 @@
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
-      register: challenge
       become: true
+      register: challenge
 
     - name: create cloudflare TXT record
       cloudflare_dns:
