@@ -6,7 +6,7 @@
     certdir: /data/temp
     crt_cn: "*.spencers.house"
     keyname: wc-domain
-    cloudflare_email: srsnowden@gmail.com
+    cloudflare_email: "srsnowden@gmail.com"
     cloudflare_zone: spencers.house
     cloudflare_api: !vault |
           $ANSIBLE_VAULT;1.1;AES256
