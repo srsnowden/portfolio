@@ -212,7 +212,7 @@
         name: sshpass
       become: true
 
-    - name: Create certificate cron job
+    - name: Add cronjob - renew certificate
       cron:
         name: "renew certificate"
         minute: 1
