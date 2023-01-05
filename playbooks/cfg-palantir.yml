@@ -16,13 +16,19 @@
       become: true
       notify: "restart nginx"
 
-    - name: Sync nginx data
-      ansible.posix.synchronize:
+    - name: Copy certificates
+      copy:
         src: "{{ item }}"
-        dest: /data/
+        dest: /data/keys/
       loop:
-        - /dist/cats
-        - /dist/keys
+        - /dist/keys/star.spencers.house.pem
+        - /dist/keys/star.spencers.house-fullchain.crt
+      become: true
+
+    - name: Sync cats site
+      ansible.posix.synchronize:
+        src: /dist/cats
+        dest: /data/
       become: true
       notify: "restart nginx"
   
