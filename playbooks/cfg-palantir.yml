@@ -15,8 +15,8 @@
         dest: /etc/nginx/
       become: true
 
-    - name: Copy nginx data directory
-      copy:
+    - name: Sync nginx data directory
+      ansible.posix.synchronize:
         src: ~/dist/data/
         dest: /data/
       become: true
