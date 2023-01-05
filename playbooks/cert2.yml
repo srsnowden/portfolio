@@ -14,3 +14,22 @@
         certificate_path: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
         privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
         friendly_name: "{{ crt_name }}"
+
+- hosts: palantir
+
+  tasks:
+    - name: Copy certificates
+      copy:
+        src: "{{ item }}"
+        dest: /data/keys/
+      loop:
+        - /dist/keys/star.spencers.house.pem
+        - /dist/keys/star.spencers.house-fullchain.crt
+      become: true
+      notify: "restart nginx"
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+      become: true
