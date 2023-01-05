@@ -11,6 +11,7 @@
       lineinfile:
         path: /etc/hosts
         line: '127.0.0.1    nexus'
+      become: true
 
     - name: Disable ssh password authentication
       lineinfile:
@@ -20,26 +21,31 @@
       loop:
         - '^\#PasswordAuthentication*'
         - '^PasswordAuthentication*'
+      become: true
 
     - name: Create ansible directory
       file:
         path: /etc/ansible
         state: directory
+      become: true
 
-    - name: Copy ansible files
+    - name: Update /etc/ansible
       copy:
         src: /repos/serenity/config/ansible/
         dest: /etc/ansible/
+      become: true
 
     - name: Update permissions on ansible ssh key
       file:
         path: /home/aragorn/.ssh/id_ed25519
         state: touch
         mode: 0600
+      become: true
 
     - name: Install vlan
       apt:
         name: vlan
+      become: true
 
     - name: Update vlans config - add vlans for mdns repeater
       copy:
@@ -56,6 +62,7 @@
           auto eth0.40
           iface eth0.40 inet manual
             vlan-raw-device eth0
+      become: true
 
     - name: Update dhcpcd config - add static addresses
       blockinfile:
@@ -80,6 +87,7 @@
           static ip_address=192.168.40.5/24
           static routers=192.168.40.1
           static domain_name_servers=192.168.10.100
+      become: true
 
     - name: Mount external drive
       ansible.posix.mount:
@@ -87,12 +95,14 @@
         src: LABEL=ark01
         fstype: ext4
         state: mounted
+      become: true
  
     - name: Add public share user
       user:
         name: pippin
         shell: /sbin/nologin
         create_home: no
+      become: true
 
     - name: Chown share directories to share user
       file:
@@ -105,10 +115,12 @@
         - /mnt/ark01/share
         - /mnt/ark01/proxstore
         - /mnt/ark01/archive
+      become: true
 
     - name: Install samba
       apt:
         name: samba
+      become: true
 
     - name: Update samba config - global settings
       blockinfile:
@@ -120,6 +132,7 @@
          interfaces = eth0
          bind interfaces only = yes
       notify: "restart samba"
+      become: true
 
     - name: Update samba config - share settings
       blockinfile:
@@ -166,6 +179,7 @@
               force user = pippin
               force group = pippin
       notify: "restart samba"
+      become: true
 
     - name: Create samba user - public share
       shell: "smbpasswd -n -a pippin"
@@ -177,18 +191,22 @@
         regexp: '^\#enable-reflector=no'
         line: enable-reflector=yes
       notify: "restart avahi"
+      become: true
 
     - name: Install sshpass
       apt:
         name: sshpass
+      become: true
 
   handlers:
     - name: restart samba
       systemd:
         state: restarted
         name: smbd
+      become: true
 
     - name: restart avahi
       systemd:
         state: restarted
         name: avahi-daemon
+      become: true
