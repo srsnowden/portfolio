@@ -52,7 +52,7 @@
 
     - name: create cloudflare TXT record
       cloudflare_dns:
-        account_api_token: EG8FCSf7xRNY2bQUCB5IhI95nzPdvotdimfGROjb
+        account_api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
         zone: "{{ cloudflare_zone }}"
         record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
@@ -79,7 +79,7 @@
 
     - name: delete cloudflare record
       cloudflare_dns:
-        account_api_token: EG8FCSf7xRNY2bQUCB5IhI95nzPdvotdimfGROjb
+        account_api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
         zone: "{{ cloudflare_zone }}"
         record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
