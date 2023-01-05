@@ -18,6 +18,10 @@
           3532626534633138386333353531633166353039396161333936
 
   tasks:
+    - name: variable
+      debug:
+        var: cloudflare_api
+
     - name: generate account key
       openssl_privatekey:
         path: "{{ certdir }}/acme-key.pem"
@@ -51,7 +55,7 @@
       register: challenge
 
     - name: create cloudflare TXT record
-      cloudflare_dns:
+      community.general.cloudflare_dns:
         account_api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
         zone: "{{ cloudflare_zone }}"
