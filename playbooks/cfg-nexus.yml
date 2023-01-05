@@ -26,10 +26,13 @@
         path: /etc/ansible
         state: directory
 
-    - name: Copy ansible host file
+    - name: Copy ansible files
       copy:
-        src: /repos/serenity/config/hosts
-        dest: /etc/ansible/hosts
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      loop:
+        - { src: '/repos/serenity/config/hosts', dest: '/etc/ansible/hosts'}
+        - { src: '/repos/serenity/config/ansible-default.cfg', dest: '/etc/ansible/ansible.cfg'}
 
     - name: Update permissions on ansible ssh key
       file:
