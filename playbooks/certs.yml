@@ -78,7 +78,7 @@
       when: challenge is changed
       become: true
 
-    - name: delete cloudflare record
+    - name: delete cloudflare TXT record
       cloudflare_dns:
         account_api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
