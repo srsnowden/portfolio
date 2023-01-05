@@ -62,6 +62,11 @@
         state: present
       when: challenge is changed
 
+    - name: pause 10 seconds for station identification
+      wait_for:
+        timeout: 10
+      become: true
+
     - name: validate acme challenge
       acme_certificate:
         acme_version: 2
