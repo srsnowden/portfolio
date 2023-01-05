@@ -52,7 +52,7 @@
 
     - name: create cloudflare TXT record
       community.general.cloudflare_dns:
-        account_api_token: "{{ cloudflare_api }}"
+        account_api_key: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
         zone: "{{ cloudflare_zone }}"
         record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
