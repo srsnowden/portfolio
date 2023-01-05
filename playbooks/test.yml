@@ -1,6 +1,6 @@
 ﻿---
 
-- host: localhost
+- hosts: localhost
 
   tasks:
     - name: test
