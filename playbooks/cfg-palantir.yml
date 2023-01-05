@@ -2,8 +2,6 @@
 
 - hosts: palantir
 
-  remote_user: sybil
-
   tasks:
     - name: Install packages
       apt:
