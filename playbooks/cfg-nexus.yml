@@ -41,7 +41,7 @@
         recurse: yes
         owner: aragorn
         group: aragorn
-
+      become: true
 
     - name: Update /etc/ansible
       copy:
