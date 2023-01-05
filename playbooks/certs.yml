@@ -50,14 +50,14 @@
       become: true
       register: challenge
 
-    - name: test
-      community.general.cloudflare_dns:
+    - name: create cloudflare TXT record
+      cloudflare_dns:
         api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
         zone: "{{ cloudflare_zone }}"
-        record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
+        record: "{{ challenge.challenge_data['dns-01'].record }}"
         type: TXT
-        value: "{{ challenge.challenge_data[item]['dns-01'].resource_value }}"
+        value: "{{ challenge.challenge_data['dns-01'].resource_value }}"
         solo: true
         state: present
       when: challenge is changed
