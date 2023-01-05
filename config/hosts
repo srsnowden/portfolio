@@ -1,3 +1,5 @@
+localhost ansible_user=aragorn
+
 [pi]
 nexus ansible_host=192.168.10.20
 palantir ansible_host=192.168.50.10

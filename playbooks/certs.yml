@@ -1,9 +1,9 @@
 ﻿---
 
-- hosts: palantir
+- hosts: localhost
 
   vars:
-    certdir: /data/temp
+    certdir: ~/dist/data/keys
     crt_cn: "*.spencers.house"
     keyname: wc-domain
     cloudflare_email: "srsnowden@gmail.com"
@@ -22,20 +22,17 @@
       openssl_privatekey:
         path: "{{ certdir }}/acme-key.pem"
         size: 4096
-      become: true
 
     - name: generate signing key
       openssl_privatekey:
         path: "{{ certdir }}/{{ keyname }}.pem"
         size: 4096
-      become: true
 
     - name: generate csr
       openssl_csr:
         path: "{{ certdir }}/{{ keyname }}.csr"
         privatekey_path: "{{ certdir }}/{{ keyname }}.pem"
         common_name: "{{ crt_cn }}"
-      become: true
 
     - name: create acme challenge
       acme_certificate:
@@ -47,7 +44,6 @@
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
-      become: true
       register: challenge
 
     - name: create cloudflare TXT record
@@ -76,7 +72,6 @@
         data: "{{ challenge }}"
         request_timeout: 20
       when: challenge is changed
-      become: true
 
     - name: delete cloudflare record
       cloudflare_dns:
@@ -93,4 +88,3 @@
         path: "{{ certdir }}/acme-key.pem"
         state: absent
       when: challenge is changed
-      become: true
