@@ -34,6 +34,15 @@
         - /dist/keys
       become: true
 
+    - name: Change /dist ownership
+      file:
+        path: /dist
+        state: directory
+        recurse: yes
+        owner: aragorn
+        group: aragorn
+
+
     - name: Update /etc/ansible
       copy:
         src: /repos/serenity/config/ansible/
