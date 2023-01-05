@@ -1,8 +1,13 @@
 ﻿---
 
-- hosts: localhost
+- hosts: palantir
 
   vars:
+    certdir: /data/temp
+    crt_cn: "*.spencers.house"
+    keyname: wc-domain
+    cloudflare_email: srsnowden@gmail.com
+    cloudflare_zone: spencers.house
     cloudflare_api: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           38346134663665663138616662346531643235646237306236316337646561356532373066376233
@@ -13,6 +18,72 @@
           3532626534633138386333353531633166353039396161333936
 
   tasks:
-    - name: Test
-      debug:
-        msg: "api token: {{ cloudflare_api }}"
+    - name: generate account key
+      openssl_privatekey:
+        path: "{{ certdir }}/acme-key.pem"
+        size: 4096
+
+    - name: generate signing key
+      openssl_privatekey:
+        path: "{{ certdir }}/{{ keyname }}.pem"
+        size: 4096
+
+    - name: generate csr
+      openssl_csr:
+        path: "{{ certdir }}/{{ keyname }}.csr"
+        privatekey_path: "{{ certdir }}/acme-key.pem"
+        common_name: "{{ crt_cn }}"
+
+    - name: create acme challenge
+      acme_certificate:
+        acme_version: 2
+        terms_agreed: yes
+        account_key_src: "{{ certdir }}/acme-key.pem"
+        src: "{{ certdir }}/{{ keyname }}.csr"
+        cert: "{{ certdir }}/{{ keyname }}.crt"
+        challenge: dns-01
+        acme_directory: https://acme-v02.api.letsencrypt.org/directory
+        remaining_days: 10
+      register: challenge
+
+    - name: create cloudflare TXT record
+      cloudflare_dns:
+        account_api_token: "{{ cloudflare_api }}"
+        account_email: "{{ cloudflare_email }}"
+        zone: "{{ cloudflare_zone }}"
+        record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
+        type: TXT
+        value: "{{ challenge.challenge_data[item]['dns-01'].resource_value }}"
+        solo: true
+        state: present
+      when: challenge is changed
+
+    - name: validate acme challenge
+      acme_certificate:
+        acme_version: 2
+        account_key_src: "{{ certdir }}/acme-key.pem"
+        src: "{{ certdir }}/{{ keyname }}.csr"
+        cert: "{{ certdir }}/{{ keyname }}.crt"
+        fullchain: "{{ certdir }}/{{ keyname }}-fullchain.crt"
+        chain: "{{ certdir }}/{{ keyname }}-intermediate.crt"
+        challenge: dns-01
+        acme_directory: https://acme-v02.api.letsencrypt.org/directory
+        remaining_days: 10
+        data: "{{ challenge }}"
+      when: challenge is changed
+
+    - name: delete cloudflare record
+      cloudflare_dns:
+        account_api_token: "{{ cloudflare_api }}"
+        account_email: "{{ cloudflare_email }}"
+        zone: "{{ cloudflare_zone }}"
+        record: "{{ challenge.challenge_data[item]['dns-01'].record }}"
+        type: TXT
+        state: absent
+      when: challenge is changed
+
+    - name: remove account key
+      openssl_privatekey:
+        path: "{{ certdir }}/acme-key.pem"
+        state: absent
+      when: challenge is changed
