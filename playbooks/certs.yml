@@ -4,7 +4,7 @@
 
   vars:
     ansible_user: aragorn
-    certdir: ~/dist/data/keys
+    certdir: /home/aragorn/dist/data/keys
     crt_cn: "*.spencers.house"
     keyname: wc-domain
     cloudflare_email: "srsnowden@gmail.com"
