@@ -74,6 +74,7 @@
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
         data: "{{ challenge }}"
+        request_timeout: 20
       when: challenge is changed
       become: true
 
