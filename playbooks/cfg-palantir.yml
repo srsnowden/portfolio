@@ -18,7 +18,7 @@
 
     - name: Sync nginx data directory
       ansible.posix.synchronize:
-        src: ~/dist/data/
+        src: /home/aragorn/dist/data/
         dest: /data/
       become: true
       notify: "restart nginx"
