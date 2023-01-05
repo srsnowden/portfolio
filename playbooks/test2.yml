@@ -1,9 +1,0 @@
-﻿---
-
-- hosts: localhost
-
-  tasks:
-    - name: test
-      copy:
-        dest: /home/aragorn/test
-        content: test

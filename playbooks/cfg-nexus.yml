@@ -212,6 +212,15 @@
         name: sshpass
       become: true
 
+    - name: Create certificate cron job
+      cron:
+        name: "renew certificate"
+        minute: 1
+        hour: 0
+        day: 1
+        month: "*/2"
+        job: "/home/aragorn/.local/bin/ansible-playbook /repos/serenity/playbooks/cert.yml"
+
   handlers:
     - name: restart samba
       systemd:
