@@ -84,3 +84,30 @@
         path: "{{ crt_path }}/acme-key.pem"
         state: absent
       when: challenge is changed
+
+    - name: generate pkcs12
+      openssl_pkcs12:
+        path: "{{ crt_path }}/{{ crt_name }}.p12"
+        certificate_path: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
+        privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
+        friendly_name: "{{ crt_name }}"
+
+- hosts: palantir
+
+  tasks:
+    - name: Copy certificates
+      copy:
+        src: "{{ item }}"
+        dest: /data/keys/
+        force: true
+      loop:
+        - /dist/keys/star.spencers.house.pem
+        - /dist/keys/star.spencers.house-fullchain.crt
+      become: true
+      notify: "restart nginx"
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+      become: true
