@@ -1,0 +1,22 @@
+﻿---
+
+- hosts: palantir
+
+  tasks:
+    - name: Install packages
+      apt:
+        name:
+          - nginx
+      become: true
+
+    - name: Copy nginx confs
+      copy:
+        src: /repos/serenity/config/palantir/nginx/
+        dest: /etc/nginx/
+      become: true
+
+    - name: Copy nginx data directory
+      copy:
+        src: ~/dist/data/
+        dest: /data/
+      become: true
