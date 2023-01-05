@@ -3,6 +3,7 @@
 - hosts: localhost
 
   vars:
+    ansible_user: aragorn
     certdir: ~/dist/data/keys
     crt_cn: "*.spencers.house"
     keyname: wc-domain
