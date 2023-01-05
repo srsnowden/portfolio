@@ -63,3 +63,8 @@
         state: present
         key: https://github.com/srsnowden.keys
       become: true
+
+    - name: Restart ssh service
+      systemd:
+        state: restarted
+        name: sshd
