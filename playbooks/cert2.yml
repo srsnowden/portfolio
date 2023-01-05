@@ -13,3 +13,4 @@
         path: "{{ crt_path }}/{{ crt_name }}.p12"
         certificate_path: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
         privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
+        friendly_name: "{{ crt_name }}"
