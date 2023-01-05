@@ -6,6 +6,6 @@
     - name: crontest
       cron:
         name: crontest
-        minute: 25
+        minute: 47
         hour: 14
         job: "/home/aragorn/.local/bin/ansible-playbook /repos/serenity/playbooks/test2.yml"
