@@ -2,7 +2,8 @@
 
 - hosts: palantir
 
-  remote_user: aragorn
+  vars:
+    ansible_user: aragorn
 
   tasks:
     - name: Set hostname
