@@ -16,10 +16,13 @@
       become: true
       notify: "restart nginx"
 
-    - name: Sync nginx data directory
+    - name: Sync nginx data
       ansible.posix.synchronize:
-        src: /home/aragorn/dist/data/
+        src: "{{ item }}"
         dest: /data/
+      loop:
+        - /dist/cats
+        - /dist/keys
       become: true
       notify: "restart nginx"
   

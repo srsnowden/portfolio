@@ -3,7 +3,7 @@
 - hosts: localhost
 
   vars:
-    crt_path: /home/aragorn/dist/data/keys
+    crt_path: /dist/keys
     crt_cn: "*.spencers.house"
     crt_name: star.spencers.house
     cloudflare_email: "srsnowden@gmail.com"

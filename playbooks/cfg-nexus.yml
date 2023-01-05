@@ -23,10 +23,15 @@
         - '^PasswordAuthentication*'
       become: true
 
-    - name: Create ansible directory
+    - name: Create directories
       file:
-        path: /etc/ansible
+        path: "{{ item }}"
         state: directory
+      loop:
+        - /etc/ansible
+        - /dist
+        - /dist/cats
+        - /dist/keys
       become: true
 
     - name: Update /etc/ansible
