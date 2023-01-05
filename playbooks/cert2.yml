@@ -1,0 +1,15 @@
+﻿---
+
+- hosts: localhost
+
+  vars:
+    crt_path: /dist/keys
+    crt_cn: "*.spencers.house"
+    crt_name: star.spencers.house
+
+  tasks:
+    - name: generate pkcs12
+      openssl_pkcs12:
+        path: "{{ crt_path }}/{{ crt_name }}.p12"
+        certificate_path: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
+        privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
