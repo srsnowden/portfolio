@@ -14,9 +14,17 @@
         src: /repos/serenity/config/palantir/nginx/
         dest: /etc/nginx/
       become: true
+      notify: "restart nginx"
 
     - name: Sync nginx data directory
       ansible.posix.synchronize:
         src: ~/dist/data/
         dest: /data/
+      become: true
+      notify: "restart nginx"
+  
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
       become: true
