@@ -50,7 +50,7 @@
       become: true
       register: challenge
 
-    - name: create cloudflare TXT record
+    - name: test
       community.general.cloudflare_dns:
         api_token: "{{ cloudflare_api }}"
         account_email: "{{ cloudflare_email }}"
