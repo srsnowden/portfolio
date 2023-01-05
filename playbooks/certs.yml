@@ -46,7 +46,7 @@
         cert: "{{ crt_path }}/{{ crt_name }}.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
-        remaining_days: 10
+        remaining_days: 60
       register: challenge
       become: true
 
@@ -72,7 +72,7 @@
         chain: "{{ crt_path }}/{{ crt_name }}-intermediate.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
-        remaining_days: 10
+        remaining_days: 60
         data: "{{ challenge }}"
         request_timeout: 30
       when: challenge is changed
