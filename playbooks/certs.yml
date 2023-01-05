@@ -3,9 +3,9 @@
 - hosts: localhost
 
   vars:
-    certdir: /home/aragorn/dist/data/keys
+    crt_path: /home/aragorn/dist/data/keys
     crt_cn: "*.spencers.house"
-    keyname: star.spencers.house
+    crt_name: star.spencers.house
     cloudflare_email: "srsnowden@gmail.com"
     cloudflare_zone: spencers.house
     cloudflare_api: !vault |
@@ -20,20 +20,20 @@
   tasks:
     - name: generate account key
       openssl_privatekey:
-        path: "{{ certdir }}/acme-key.pem"
+        path: "{{ crt_path }}/acme-key.pem"
         size: 4096
       become: true
 
     - name: generate signing key
       openssl_privatekey:
-        path: "{{ certdir }}/{{ keyname }}.pem"
+        path: "{{ crt_path }}/{{ crt_name }}.pem"
         size: 4096
       become: true
 
     - name: generate csr
       openssl_csr:
-        path: "{{ certdir }}/{{ keyname }}.csr"
-        privatekey_path: "{{ certdir }}/{{ keyname }}.pem"
+        path: "{{ crt_path }}/{{ crt_name }}.csr"
+        privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
         common_name: "{{ crt_cn }}"
       become: true
 
@@ -41,9 +41,9 @@
       acme_certificate:
         acme_version: 2
         terms_agreed: yes
-        account_key_src: "{{ certdir }}/acme-key.pem"
-        src: "{{ certdir }}/{{ keyname }}.csr"
-        cert: "{{ certdir }}/{{ keyname }}.crt"
+        account_key_src: "{{ crt_path }}/acme-key.pem"
+        src: "{{ crt_path }}/{{ crt_name }}.csr"
+        cert: "{{ crt_path }}/{{ crt_name }}.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
@@ -65,11 +65,11 @@
     - name: validate acme challenge
       acme_certificate:
         acme_version: 2
-        account_key_src: "{{ certdir }}/acme-key.pem"
-        src: "{{ certdir }}/{{ keyname }}.csr"
-        cert: "{{ certdir }}/{{ keyname }}.crt"
-        fullchain: "{{ certdir }}/{{ keyname }}-fullchain.crt"
-        chain: "{{ certdir }}/{{ keyname }}-intermediate.crt"
+        account_key_src: "{{ crt_path }}/acme-key.pem"
+        src: "{{ crt_path }}/{{ crt_name }}.csr"
+        cert: "{{ crt_path }}/{{ crt_name }}.crt"
+        fullchain: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
+        chain: "{{ crt_path }}/{{ crt_name }}-intermediate.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
@@ -90,7 +90,7 @@
 
     - name: remove account key
       openssl_privatekey:
-        path: "{{ certdir }}/acme-key.pem"
+        path: "{{ crt_path }}/acme-key.pem"
         state: absent
       when: challenge is changed
       become: true

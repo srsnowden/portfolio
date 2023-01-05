@@ -68,3 +68,4 @@
       systemd:
         state: restarted
         name: sshd
+      become: true
