@@ -28,11 +28,8 @@
 
     - name: Copy ansible files
       copy:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
-      loop:
-        - { src: '/repos/serenity/config/hosts', dest: '/etc/ansible/hosts'}
-        - { src: '/repos/serenity/config/ansible-default.cfg', dest: '/etc/ansible/ansible.cfg'}
+        src: /repos/serenity/config/ansible/
+        dest: /etc/ansible/
 
     - name: Update permissions on ansible ssh key
       file:

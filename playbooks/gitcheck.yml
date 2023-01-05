@@ -9,7 +9,7 @@
         dest: /repos/serenity
         key_file: /home/aragorn/.ssh/id_ed25519
 
-    - name: Update ansible host file
+    - name: Update /etc/ansible
       copy:
-        src: /repos/serenity/config/hosts
-        dest: /etc/ansible/hosts
+        src: /repos/serenity/config/ansible/
+        dest: /etc/ansible/
