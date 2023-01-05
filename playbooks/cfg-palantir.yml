@@ -14,7 +14,7 @@
         src: /repos/serenity/config/palantir/nginx/
         dest: /etc/nginx/
       become: true
-      notify: "restart nginx"
+      notify: restart nginx
 
     - name: Copy certificates
       copy:
@@ -30,7 +30,7 @@
         src: /dist/cats
         dest: /data/
       become: true
-      notify: "restart nginx"
+      notify: restart nginx
   
   handlers:
     - name: restart nginx
