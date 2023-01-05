@@ -42,6 +42,14 @@
         groups: sudo
       become: true
 
+    - name: Enable passwordless sudo for ansible
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sybil'
+        line: '%sybil ALL=(ALL) NOPASSWD: ALL'
+      become: true
+
     - name: Create key directory for ansible user
       file:
         path: /home/sybil/.ssh
