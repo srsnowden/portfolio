@@ -6,7 +6,7 @@
     ansible_user: aragorn
     certdir: /home/aragorn/dist/data/keys
     crt_cn: "*.spencers.house"
-    keyname: wc-domain
+    keyname: star.spencers.house
     cloudflare_email: "srsnowden@gmail.com"
     cloudflare_zone: spencers.house
     cloudflare_api: !vault |
@@ -75,7 +75,7 @@
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 10
         data: "{{ challenge }}"
-        request_timeout: 20
+        request_timeout: 30
       when: challenge is changed
       become: true
 
