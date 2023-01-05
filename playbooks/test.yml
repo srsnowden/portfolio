@@ -3,7 +3,9 @@
 - hosts: localhost
 
   tasks:
-    - name: test
-      copy:
-        dest: /home/aragorn/test
-        content: test
+    - name: crontest
+      cron:
+        name: crontest
+        minute: 25
+        hour: 14
+        job: "/home/aragorn/.local/bin/ansible-playbook /repos/serenity/playbooks/test2.yml"
