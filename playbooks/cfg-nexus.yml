@@ -3,32 +3,11 @@
 - hosts: localhost
 
   tasks:
-    - name: Set hostname
-      hostname:
-        name: nexus
-
-    - name: Update host file
-      lineinfile:
-        path: /etc/hosts
-        line: '127.0.0.1    nexus'
-      become: true
-
-    - name: Disable ssh password authentication
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: "{{ item }}"
-        line: PasswordAuthentication no
-      loop:
-        - '^\#PasswordAuthentication*'
-        - '^PasswordAuthentication*'
-      become: true
-
     - name: Create directories
       file:
         path: "{{ item }}"
         state: directory
       loop:
-        - /etc/ansible
         - /dist
         - /dist/cats
         - /dist/keys
@@ -41,12 +20,6 @@
         recurse: yes
         owner: aragorn
         group: aragorn
-      become: true
-
-    - name: Update /etc/ansible
-      copy:
-        src: /repos/serenity/config/ansible/
-        dest: /etc/ansible/
       become: true
 
     - name: Update permissions on ansible ssh key

@@ -1,0 +1,12 @@
+﻿---
+
+dist:
+  home: /dist
+  cats: /dist/cats
+  keys: /dist/keys
+  
+cert:
+  name: star.spencers.house
+  star: star.spencers.house.pem
+  star-fc: star.spencers.house-fullchain.crt
+  star-p12: star.spencers.house.p12
