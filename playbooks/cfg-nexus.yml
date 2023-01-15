@@ -10,12 +10,12 @@
       loop:
         - "{{ dist.home }}"
         - "{{ dist.cats }}"
-        - "{{ dist.keys }}"
+        - "{{ dist.cert }}"
       become: true
 
     - name: Change /dist ownership
       file:
-        path: /dist
+        path: "{{ dist.home }}"
         state: directory
         recurse: yes
         owner: aragorn
