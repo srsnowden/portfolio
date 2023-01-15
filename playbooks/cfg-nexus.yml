@@ -202,9 +202,12 @@
     - name: Update avahi config - enable mdns reflector
       lineinfile:
         path: /etc/avahi/avahi-daemon.conf
-        regexp: '^\#enable-reflector=no'
+        regexp: "{{ item }}"
         line: enable-reflector=yes
       notify: "restart avahi"
+      loop:
+       - '^\#enable-reflector=*'
+       - '^enable-reflector=*'
       become: true
 
     - name: Install sshpass
@@ -215,8 +218,8 @@
     - name: Add cronjob - renew certificate
       cron:
         name: "renew certificate"
-        minute: 1
-        hour: 0
+        minute: 0
+        hour: 4
         day: 1
         month: "*/2"
         job: "/home/aragorn/.local/bin/ansible-playbook /repos/serenity/playbooks/cert.yml"
