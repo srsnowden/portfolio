@@ -7,7 +7,7 @@
       git:
         repo: git@github.com:srsnowden/serenity.git
         dest: /repos/serenity
-        key_file: /home/aragorn/.ssh/id_ed25519
+        key_file: "{{ ansible_ssh_private_key_file }}"
       become: true
 
     - name: Update /etc/ansible
