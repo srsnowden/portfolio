@@ -54,6 +54,7 @@
         path: /home/aragorn/.ssh/id_ed25519
         state: touch
         mode: 0600
+        modification_time: preserve
       become: true
 
     - name: Install vlan
