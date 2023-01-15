@@ -6,7 +6,7 @@ userpass = input('Enter user password: ')
 userkey = input('Filename for user\'s public ssh key: ')
 userkeypath = "/home/" + username + "/.ssh/authorized_keys"
 gitkey = input('Filename for git key: ')
-gitkeypath = "/home/" + username + "/.ssh/" + gitkey
+gitkeypath = "/home/" + username + "/.ssh/sybil"
 
 
 ctx = Connection(host=addr, user=username, connect_kwargs={"password":userpass})

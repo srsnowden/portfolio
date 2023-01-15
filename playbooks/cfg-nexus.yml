@@ -24,7 +24,7 @@
 
     - name: Update permissions on ansible ssh key
       file:
-        path: /home/aragorn/.ssh/id_ed25519
+        path: "{{ ansible_ssh_private_key_file }}"
         state: touch
         mode: 0600
         modification_time: preserve
