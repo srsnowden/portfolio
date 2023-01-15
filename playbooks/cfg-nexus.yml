@@ -8,9 +8,9 @@
         path: "{{ item }}"
         state: directory
       loop:
-        - /dist
-        - /dist/cats
-        - /dist/keys
+        - "{{ dist.home }}"
+        - "{{ dist.cats }}"
+        - "{{ dist.keys }}"
       become: true
 
     - name: Change /dist ownership
