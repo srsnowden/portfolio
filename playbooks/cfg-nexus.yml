@@ -55,6 +55,7 @@
         state: touch
         mode: 0600
         modification_time: preserve
+        access_time: preserve
       become: true
 
     - name: Install vlan
