@@ -19,7 +19,7 @@
     - name: Copy certificates
       copy:
         src: "{{ item }}"
-        dest: "{{ web.cert }}"
+        dest: "{{ web.cert }}/"
         force: true
       loop:
         - "{{ dist.cert }}/{{ cert.star }}"
