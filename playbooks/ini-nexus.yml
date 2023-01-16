@@ -28,8 +28,8 @@
         path: /etc/ansible
         state: directory
 
-    - name: Update /etc/ansible
-      copy:
+    - name: Sync /etc/ansible
+      ansible.posix.synchronize:
         src: /repos/serenity/config/ansible/
         dest: /etc/ansible/
       become: true
