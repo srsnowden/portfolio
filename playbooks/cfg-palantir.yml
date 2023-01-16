@@ -23,7 +23,7 @@
         force: true
       loop:
         - "{{ dist.cert }}/{{ cert.star }}"
-        - "{{ dist.cert }}/{{ cert.full }}"
+        - "{{ dist.cert }}/{{ cert.star-fc }}"
       become: true
       notify: "restart nginx"
 
