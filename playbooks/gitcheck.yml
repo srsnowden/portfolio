@@ -10,8 +10,8 @@
         key_file: "{{ ansible_ssh_private_key_file }}"
       become: true
 
-    - name: Update /etc/ansible
-      copy:
+    - name: Sync /etc/ansible
+      ansible.posix.synchronize:
         src: /repos/serenity/config/ansible/
         dest: /etc/ansible/
       become: true
