@@ -19,18 +19,18 @@
     - name: Copy certificates
       copy:
         src: "{{ item }}"
-        dest: /data/keys/
+        dest: "{{ web.cert }}"
         force: true
       loop:
-        - /dist/keys/star.spencers.house.pem
-        - /dist/keys/star.spencers.house-fullchain.crt
+        - "{{ dist.cert }}/{{ cert.star }}"
+        - "{{ dist.cert }}/{{ cert.full }}"
       become: true
       notify: "restart nginx"
 
     - name: Sync cats site
       ansible.posix.synchronize:
-        src: /dist/cats
-        dest: /data/
+        src: "{{ dist.cats }}"
+        dest: "{{ web.cats }}"
       become: true
       notify: "restart nginx"
   

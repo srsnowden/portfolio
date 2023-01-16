@@ -1,0 +1,6 @@
+﻿---
+
+web:
+  home: /data
+  cats: /data/cats
+  cert: /data/cert
