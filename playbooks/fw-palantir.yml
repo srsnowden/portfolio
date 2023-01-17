@@ -1,0 +1,61 @@
+---
+
+- hosts: palantir
+
+  tasks:
+    - name: flush existing rules
+      iptables:
+        chain: INPUT
+        flush: yes
+      become: true
+
+    - name: accept ssh from pcs/ansible
+      iptables:
+        chain: INPUT
+        source: "{{ item }}"
+        protocol: tcp
+        destination_port: 22
+        in_interface: eth0
+        jump: ACCEPT
+      loop:
+       - "{{ hostvars['tower'].ansible_host }}"
+       - "{{ hostvars['laptop'].ansible_host }}"
+       - "{{ hostvars['nexus'].ansible_host }}"
+      become: true
+
+    - name: accept all http/s
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_ports:
+         - "80"
+         - "443"
+        jump: ACCEPT
+      become: true
+
+    - name: accept DNS from pihole
+      iptables:
+        chain: INPUT
+        source: "{{ hostvars['pihole'].ansible_host }}"
+        protocol: udp
+        source_port: 53
+        jump: ACCEPT
+      become: true
+
+    - name: accept vaultwarden traffic
+      iptables:
+        chain: INPUT
+        source: "{{ hostvars['vault'].ansible_host }}"
+        protocol: tcp
+        source_ports:
+        - "80"
+        - "443"
+        - "3012"
+
+#    - name: default drop policy
+#      iptables:
+#        chain: INPUT
+#        policy: DROP
+#      become: true
+
+  handlers:
