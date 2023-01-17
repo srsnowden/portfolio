@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: iptables
+      chain: INPUT
+      protocol: udp
+      destination_port: 5353
+      jump: ACCEPT
+
+  handlers:
