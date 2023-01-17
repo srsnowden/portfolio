@@ -9,19 +9,35 @@
         flush: yes
       become: true
 
-    - name: accept limited ssh
+    - name: accept ssh from pcs
       iptables:
         chain: INPUT
         source: "{{ item }}"
         destination: "{{ hostvars['nexus'].ansible_host }}"
         protocol: tcp
         destination_port: 22
+        in_interface: eth0
         jump: ACCEPT
       loop:
        - "{{ hostvars['tower'].ansible_host }}"
        - "{{ hostvars['laptop'].ansible_host }}"
       become: true
 
+    - name: accept smb from secure & laptop
+      iptables:
+        chain: INPUT
+        source: "{{ item }}"
+        destination: "{{ hostvars['nexus'].ansible_host }}"
+        protocol: tcp
+        destination_ports:
+        - "139"
+        - "445"
+        in_interface: eth0
+        jump: ACCEPT
+      loop:
+       - 192.168.10.0/16
+       - "{{ hostvars['laptop'].ansible_host }}"
+      become: true
 
     - name: accept mDNS traffic on all interfaces
       iptables:
