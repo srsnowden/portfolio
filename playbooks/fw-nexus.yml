@@ -3,6 +3,16 @@
 - hosts: localhost
 
   tasks:
+    - name: set default policy - accept all
+      iptables:
+        chain: "{{ item }}"
+        policy: ACCEPT
+      loop:
+       - "INPUT"
+       - "FORWARD"
+       - "OUTPUT"
+      become: true
+
     - name: flush existing rules
       iptables:
         chain: INPUT
