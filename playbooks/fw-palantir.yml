@@ -15,7 +15,6 @@
         source: "{{ item }}"
         protocol: tcp
         destination_port: 22
-        in_interface: eth0
         jump: ACCEPT
       loop:
        - "{{ hostvars['tower'].ansible_host }}"
@@ -47,10 +46,12 @@
         chain: INPUT
         source: "{{ hostvars['vault'].ansible_host }}"
         protocol: tcp
+        ctstate: ESTABLISHED,RELATED
         source_ports:
         - "80"
         - "443"
         - "3012"
+      become: true
 
 #    - name: default drop policy
 #      iptables:
