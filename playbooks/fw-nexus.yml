@@ -48,4 +48,10 @@
         jump: ACCEPT
       become: true
 
+    - name: default drop policy
+      iptables:
+        chain: INPUT
+        policy: DROP
+      become: true
+
   handlers:
