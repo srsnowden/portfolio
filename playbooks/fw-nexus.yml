@@ -17,8 +17,9 @@
         protocol: tcp
         destination_port: 22
         jump: ACCEPT
-      with_items:
-       - "{{ groups['pc']['ansible_host'] }}"
+      loop:
+       - "{{ hostvars['tower'].ansible_host }}"
+       - "{{ hostvars['laptop'].ansible_host }}"
       become: true
 
 
