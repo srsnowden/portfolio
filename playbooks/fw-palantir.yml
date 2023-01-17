@@ -51,6 +51,7 @@
         - "80"
         - "443"
         - "3012"
+        jump: ACCEPT
       become: true
 
 #    - name: default drop policy
