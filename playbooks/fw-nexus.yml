@@ -3,10 +3,12 @@
 - hosts: localhost
 
   tasks:
-    - name: iptables
-      chain: INPUT
-      protocol: udp
-      destination_port: 5353
-      jump: ACCEPT
+    - name: accept mDNS traffic on all interfaces
+      iptables:
+        chain: INPUT
+        protocol: udp
+        destination_port: 5353
+        jump: ACCEPT
+      become: true
 
   handlers:
