@@ -32,7 +32,7 @@
         jump: ACCEPT
       become: true
 
-    - name: accept DNS from pihole
+    - name: accept dns from pihole
       iptables:
         chain: INPUT
         source: "{{ hostvars['pihole'].ansible_host }}"
@@ -41,7 +41,7 @@
         jump: ACCEPT
       become: true
 
-    - name: accept vaultwarden traffic
+    - name: accept proxy response from vault
       iptables:
         chain: INPUT
         source: "{{ hostvars['vault'].ansible_host }}"
@@ -55,10 +55,73 @@
        - "3012"
       become: true
 
-#    - name: default drop policy
-#      iptables:
-#        chain: INPUT
-#        policy: DROP
-#      become: true
+    - name: accept local icmp
+      iptables:
+        chain: INPUT
+        source: 192.168.0.0/16
+        protocol: icmp
+        jump: ACCEPT
+      become: true
+
+    - name: default input policy - drop
+      iptables:
+        chain: INPUT
+        policy: DROP
+      become: true
+
+    - name: permit response - all http/s
+      iptables:
+        chain: OUTPUT
+        protocol: tcp
+        source_port: "{{ item }}"
+        ctstate: ESTABLISHED,RELATED
+        jump: ACCEPT
+      loop:
+       - "80"
+       - "443"
+      become: true
+
+    - name: permit response - ssh from pcs/ansible
+      iptables:
+        chain: OUTPUT
+        destination: "{{ item }}"
+        protocol: tcp
+        source_port: 22
+        ctstate: ESTABLISHED,RELATED
+        jump: ACCEPT
+      loop:
+       - "{{ hostvars['tower'].ansible_host }}"
+       - "{{ hostvars['laptop'].ansible_host }}"
+       - "{{ hostvars['nexus'].ansible_host }}"
+      become: true
+
+    - name: permit dns to pihole
+      iptables:
+        chain: OUTPUT
+        destination: "{{ hostvars['pihole'].ansible_host }}"
+        protocol: udp
+        destination_port: 53
+        jump: ACCEPT
+      become: true
+
+    - name: permit vault proxy traffic
+      iptables:
+        chain: OUTPUT
+        destination: "{{ hostvars['vault'].ansible_host }}"
+        protocol: tcp
+        destination_ports:
+         - "80"
+         - "443"
+         - "3012"
+        jump: ACCEPT
+      become: true
+
+    - name: permit local icmp
+      iptables:
+        chain: OUTPUT
+        destination: 192.168.0.0/16
+        protocol: icmp
+        jump: ACCEPT
+      become: true
 
   handlers:
