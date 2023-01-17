@@ -3,6 +3,12 @@
 - hosts: localhost
 
   tasks:
+    - name: flush existing rules
+      iptables:
+        chain: INPUT
+        flush: yes
+      become: true
+
     - name: accept mDNS traffic on all interfaces
       iptables:
         chain: INPUT
