@@ -47,7 +47,7 @@
         source: "{{ hostvars['vault'].ansible_host }}"
         protocol: tcp
         ctstate: ESTABLISHED,RELATED
-        source_port: "{{ item} }}"
+        source_port: "{{ item }}"
         jump: ACCEPT
       loop:
        - "80"
