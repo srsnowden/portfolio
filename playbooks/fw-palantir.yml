@@ -124,4 +124,8 @@
         jump: ACCEPT
       become: true
 
-  handlers:
+    - name: default output policy - drop
+      iptables:
+        chain: OUTPUT
+        policy: DROP
+      become: true
