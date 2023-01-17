@@ -47,11 +47,12 @@
         source: "{{ hostvars['vault'].ansible_host }}"
         protocol: tcp
         ctstate: ESTABLISHED,RELATED
-        source_ports:
-        - "80"
-        - "443"
-        - "3012"
+        source_port: "{{ item} }}"
         jump: ACCEPT
+      loop:
+       - "80"
+       - "443"
+       - "3012"
       become: true
 
 #    - name: default drop policy
