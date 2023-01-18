@@ -65,6 +65,7 @@
     - name: allow related and established connections
       iptables:
         chain: INPUT
+        source: 192.168.0.0/16
         destination: "{{ hostvars['nexus'].ansible_host }}"
         ctstate: ESTABLISHED,RELATED
         in_interface: eth0
