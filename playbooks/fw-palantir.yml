@@ -15,8 +15,12 @@
 
     - name: flush existing rules
       iptables:
-        chain: INPUT
+        chain: "{{ item }}"
         flush: yes
+      loop:
+       - "INPUT"
+       - "FORWARD"
+       - "OUTPUT"
       become: true
 
     - name: accept ssh from pcs/ansible
