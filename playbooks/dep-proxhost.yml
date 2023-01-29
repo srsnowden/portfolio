@@ -9,13 +9,14 @@
       prompt: What is the prox host ip?
       private: false
 
-    - name: root_pw
+    - name: pass_in
       prompt: What is the root account password?
       private: false
 
   tasks:
     - add_host:
         name: "{{ host_ip }}"
+        root_pw: "{{ pass_in }}"
         groups: target_host
 
 - hosts: target_host
