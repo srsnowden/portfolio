@@ -18,17 +18,37 @@
         create_home: no
       become: true
 
-    - name: Chown share directories to share user
+    - name: Create private share user
+      user:
+        name: gandalf
+        password: $6$zlNYWfOy5dEPyuCZ$MOu8Jk112JILoo5TtxmSLn9JFCxpqOlLW.J//lpInmsG8HuaMiJwbx5zjpm1OQpgZfRQ1mURHNM5Kg/tgHU2p.
+        shell: /sbin/nologin
+        create_home: no
+      become: true
+
+    - name: Create laptop user
+      user:
+        name: strider
+        append: true
+        groups: sudo
+      become: true
+
+    - name: Create key directory for laptop user
       file:
-        path: "{{ item }}"
+        path: /home/strider/.ssh
+        state: directory
+
+    - name: Chown share directories to share users
+      file:
+        path: "{{ item.dir }}"
         state: directory
         recurse: yes
-        owner: pippin
-        group: pippin
+        owner: "{{ item.user }}"
+        group: "{{ item.group }}"
       loop:
-        - /mnt/ark01/share
-        - /mnt/ark01/proxstore
-        - /mnt/ark01/archive
+        - { dir: '/mnt/ark01/share', user: 'pippin', group: 'pippin' }
+        - { dir: '/mnt/ark01/proxstore', user: 'gandalf', group: 'gandalf' }
+        - { dir: '/mnt/ark01/archive', user: 'gandalf', group: 'gandalf' }
       become: true
 
     - name: Create dist
@@ -76,6 +96,17 @@
          - sshpass
       become: true
 
+    - name: Disable ssh password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item }}"
+        line: PasswordAuthentication no
+      loop:
+        - '^\#PasswordAuthentication*'
+        - '^PasswordAuthentication*'
+      become: true
+      notify: "restart ssh"
+
     - name: Update vlans config - add vlans for mdns repeater
       copy:
         dest: /etc/network/interfaces.d/vlans
@@ -122,6 +153,18 @@
       shell: "smbpasswd -n -a pippin"
       become: true
 
+    - name: Create samba user - private share
+      vars:
+        gandalf_pw: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34643763383962343434383637393637343561633133376466346533373564316533336239386139
+          3835386331303734666337313335353263393066623235620a326261623366633062623764396238
+          65646634306130353563633631373934323231313666633935326431393236623431663335326636
+          6135656663653261660a656635373538316137306338383434653562343838363233356637333337
+          6139
+      shell: "(echo {{ gandalf_pw }}; echo {{ gandalf_pw }}) | smbpasswd -s -a gandalf"
+      become: true
+
     - name: Update samba config - global settings
       blockinfile:
         path: /etc/samba/smb.conf
@@ -146,6 +189,7 @@
               public = yes
               create mask = 0777
               directory mask = 0777
+              valid users = pippin, gandalf
               force user = pippin
               force group = pippin
 
@@ -156,8 +200,8 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              force user = pippin
-              force group = pippin
+              force user = gandalf
+              force group = gandalf
 
           [backups]
               path = /mnt/ark01/proxstore/backups
@@ -166,8 +210,8 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              force user = pippin
-              force group = pippin
+              force user = gandalf
+              force group = gandalf
 
           [templates]
               path = /mnt/ark01/proxstore/templates
@@ -176,8 +220,8 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              force user = pippin
-              force group = pippin
+              force user = gandalf
+              force group = gandalf
       notify: "restart samba"
       become: true
 
@@ -203,4 +247,10 @@
       systemd:
         state: restarted
         name: avahi-daemon
+      become: true
+
+    - name: restart ssh
+      systemd:
+        state: restarted
+        name: sshd
       become: true
