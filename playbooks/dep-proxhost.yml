@@ -77,9 +77,12 @@
         key: https://github.com/srsnowden.keys
 
     - name: Update sshd_config
-      lineinfile:
+      blockinfile:
         path: /etc/ssh/sshd_config
-        line: 'AllowUsers root@localhost aragorn@192.168.20.10 aragorn@192.168.20.20 sybil@192.168.10.20'
+        block: |
+          AllowUsers root@localhost
+          AllowUsers aragorn@"{{ hostvars['tower'].ansible_host}}"
+          AllowUsers sybil@"{{ hostvars['nexus'].ansible_host}}"
 
     - name: Restart sshd
       systemd:
