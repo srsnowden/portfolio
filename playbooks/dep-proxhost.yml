@@ -46,6 +46,7 @@
       loop:
         - aragorn
         - sybil
+        - strider
 
     - name: Enable passwordless sudo
       lineinfile:
@@ -56,6 +57,7 @@
       loop:
         - { search: '^%aragorn', replace: '%aragorn ALL=(ALL) NOPASSWD: ALL' }
         - { search: '^%sybil', replace: '%sybil ALL=(ALL) NOPASSWD: ALL' }
+        - { search: '^%strider', replace: '%strider ALL=(ALL) NOPASSWD: ALL' }
 
     - name: Create key directory for ansible user
       file:
@@ -64,11 +66,16 @@
       loop:
         - '/home/aragorn/.ssh'
         - '/home/sybil/.ssh'
+        - '/home/strider/.ssh'
 
-    - name: Copy public key for admin user
+    - name: Copy local public keys
       copy:
-        src: /home/aragorn/.ssh/authorized_keys
-        dest: /home/aragorn/.ssh/authorized_keys
+        src: "{{ item.from }}"
+        dest: "{{ item.to }}"
+      loop:
+        - { from: '/home/aragorn/.ssh/authorized_keys', to: '/home/aragorn/.ssh/authorized_keys' }
+        - { from: '/home/strider/.ssh/authorized_keys', to: '/home/strider/.ssh/authorized_keys' }
+      become: true
 
     - name: Add ansible user public key
       ansible.posix.authorized_key:
@@ -82,6 +89,7 @@
         block: |
           AllowUsers root@localhost
           AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
+          AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
           AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
 
     - name: Restart sshd
