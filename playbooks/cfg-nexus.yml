@@ -198,7 +198,7 @@
               path = /mnt/ark01/archive
               writable = yes
               printable = no
-              public = yes
+              public = no
               create mask = 0777
               directory mask = 0777
               valid user = gandalf
@@ -207,7 +207,7 @@
               path = /mnt/ark01/proxstore/backups
               writable = yes
               printable = no
-              public = yes
+              public = no
               create mask = 0777
               directory mask = 0777
               valid user = gandalf
@@ -216,7 +216,7 @@
               path = /mnt/ark01/proxstore/templates
               writable = yes
               printable = no
-              public = yes
+              public = no
               create mask = 0777
               directory mask = 0777
               valid user = gandalf
