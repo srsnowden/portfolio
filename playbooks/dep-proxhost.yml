@@ -6,11 +6,11 @@
 
   vars_prompt:
     - name: host_ip
-      prompt: What is the prox host ip?
+      prompt: Enter host ip
       private: false
 
     - name: pass_in
-      prompt: What is the root account password?
+      prompt: Enter root account password
       private: true
 
   tasks:
