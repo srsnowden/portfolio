@@ -55,6 +55,7 @@
       loop:
         - { search: '^%sybil', replace: '%sybil ALL=(ALL) NOPASSWD: ALL' }
         - { search: '^%strider', replace: '%strider ALL=(ALL) NOPASSWD: ALL' }
+      become: true
 
     - name: Create key directory for all users
       file:
