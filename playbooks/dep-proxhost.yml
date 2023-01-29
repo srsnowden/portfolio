@@ -11,7 +11,7 @@
 
     - name: root_pw
       prompt: What is the root account password?
-      private: true
+      private: false
 
   tasks:
     - add_host:
