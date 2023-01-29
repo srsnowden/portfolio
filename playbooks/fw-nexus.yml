@@ -62,6 +62,14 @@
         jump: ACCEPT
       become: true
 
+    - name: accept local icmp
+      iptables:
+        chain: INPUT
+        source: 192.168.0.0/16
+        protocol: icmp
+        jump: ACCEPT
+      become: true
+
     - name: allow related and established connections
       iptables:
         chain: INPUT
