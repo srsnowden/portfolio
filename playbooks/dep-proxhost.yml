@@ -81,8 +81,8 @@
         path: /etc/ssh/sshd_config
         block: |
           AllowUsers root@localhost
-          AllowUsers aragorn@"{{ hostvars['tower'].ansible_host}}"
-          AllowUsers sybil@"{{ hostvars['nexus'].ansible_host}}"
+          AllowUsers aragorn@"{{ hostvars['tower'].ansible_host }}"
+          AllowUsers sybil@"{{ hostvars['nexus'].ansible_host }}"
 
     - name: Restart sshd
       systemd:
