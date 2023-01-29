@@ -108,12 +108,13 @@
       become: true
       notify: "restart ssh"
 
-    - name: Enable passwordless sudo
-      copy:
-        dest: /etc/sudoers.d/ansible
-        content: 'strider ALL=(ALL) NOPASSWD: ALL'
+    - name: Enable passwordless sudo for laptop user
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%strider'
+        line: '%strider ALL=(ALL) NOPASSWD: ALL'
       become: true
-      notify: "restart sudo"
 
     - name: Update vlans config - add vlans for mdns repeater
       copy:
@@ -258,10 +259,4 @@
       systemd:
         state: restarted
         name: sshd
-      become: true
-
-    - name: restart sudo
-      systemd:
-        state: restarted
-        name: sudo
       become: true
