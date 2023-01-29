@@ -2,6 +2,8 @@
 
 - hosts:
 
+  vars:
+
   tasks:
 
   handlers:

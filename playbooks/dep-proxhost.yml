@@ -1,0 +1,29 @@
+---
+
+- hosts: localhost
+
+  gather_facts: no
+
+  vars_prompt:
+    - name: host_ip
+      prompt: What is the prox host ip?
+      private: false
+
+    - name: root_pw
+      prompt: What is the root account password?
+      private: true
+
+  tasks:
+    - add_host:
+        name: "{{ host_ip }}"
+        groups: target_host
+
+- hosts: target_host
+  ansible_user: root
+  ansible_password: "{{ root_pw }}"
+
+  tasks:
+    - name: test task
+      apt:
+        upgrade: yes
+        update_cache: yes
