@@ -190,7 +190,6 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              valid users = pippin, gandalf
               force user = pippin
               force group = pippin
 
