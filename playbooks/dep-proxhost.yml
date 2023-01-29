@@ -75,4 +75,13 @@
         user: sybil
         state: present
         key: https://github.com/srsnowden.keys
-      become: true
+
+    - name: Update sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        line: 'AllowUsers root@localhost aragorn@192.168.20.10 aragorn@192.168.20.20 sybil@192.168.10.20'
+
+    - name: Restart sshd
+      systemd:
+        name: sshd
+        state: restarted
