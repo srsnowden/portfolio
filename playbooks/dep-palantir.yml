@@ -49,7 +49,7 @@
 
     - name: Create key directory for all users
       file:
-        path: /home/sybil/.ssh
+        path: "{{ item }}"
         state: directory
       loop:
         - /home/aragorn/.ssh
