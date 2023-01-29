@@ -19,8 +19,10 @@
         groups: target_host
 
 - hosts: target_host
-  ansible_user: root
-  ansible_password: "{{ root_pw }}"
+
+  vars:
+    ansible_user: root
+    ansible_password: "{{ root_pw }}"
 
   tasks:
     - name: test task
