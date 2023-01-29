@@ -44,12 +44,12 @@
         path: "{{ item.dir }}"
         state: directory
         recurse: yes
-        owner: "{{ item.user }}"
-        group: "{{ item.group }}"
+        owner: "{{ item.usr }}"
+        group: "{{ item.grp }}"
       loop:
-        - { dir: '/mnt/ark01/share', user: 'pippin', group: 'pippin' }
-        - { dir: '/mnt/ark01/proxstore', user: 'gandalf', group: 'gandalf' }
-        - { dir: '/mnt/ark01/archive', user: 'gandalf', group: 'gandalf' }
+        - { dir: '/mnt/ark01/share', usr: 'pippin', grp: 'pippin' }
+        - { dir: '/mnt/ark01/proxstore', usr: 'gandalf', grp: 'gandalf' }
+        - { dir: '/mnt/ark01/archive', usr: 'gandalf', grp: 'gandalf' }
       become: true
 
     - name: Create dist
