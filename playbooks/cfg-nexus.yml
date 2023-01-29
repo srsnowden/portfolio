@@ -37,6 +37,7 @@
       file:
         path: /home/strider/.ssh
         state: directory
+      become: true
 
     - name: Chown share directories to share users
       file:
