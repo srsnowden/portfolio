@@ -201,8 +201,7 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              force user = gandalf
-              force group = gandalf
+              valid user = gandalf
 
           [backups]
               path = /mnt/ark01/proxstore/backups
@@ -211,8 +210,7 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              force user = gandalf
-              force group = gandalf
+              valid user = gandalf
 
           [templates]
               path = /mnt/ark01/proxstore/templates
@@ -221,8 +219,7 @@
               public = yes
               create mask = 0777
               directory mask = 0777
-              force user = gandalf
-              force group = gandalf
+              valid user = gandalf
       notify: "restart samba"
       become: true
 
