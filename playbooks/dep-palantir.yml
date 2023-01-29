@@ -26,16 +26,6 @@
         - '^\#PasswordAuthentication*'
         - '^PasswordAuthentication*'
 
-    - name: Create key directory for admin user
-      file:
-        path: /home/aragorn/.ssh
-        state: directory
-
-    - name: Copy public key for admin user
-      copy:
-        src: /home/aragorn/.ssh/authorized_keys
-        dest: /home/aragorn/.ssh/authorized_keys
-
     - name: Create users - ansible and laptop
       user:
         name: "{{ item }}"
