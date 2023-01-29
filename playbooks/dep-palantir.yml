@@ -36,25 +36,43 @@
         src: /home/aragorn/.ssh/authorized_keys
         dest: /home/aragorn/.ssh/authorized_keys
 
-    - name: Create ansible user
+    - name: Create users - ansible and laptop
       user:
-        name: sybil
+        name: "{{ item }}"
         append: true
         groups: sudo
+      loop:
+        - sybil
+        - strider
       become: true
 
-    - name: Enable passwordless sudo for ansible
+    - name: Enable passwordless sudo - ansible and laptop
       lineinfile:
         path: /etc/sudoers
         state: present
-        regexp: '^%sybil'
-        line: '%sybil ALL=(ALL) NOPASSWD: ALL'
-      become: true
+        regexp: "{{ item.search }}"
+        line: "{{ item.replace }}"
+      loop:
+        - { search: '^%sybil', replace: '%sybil ALL=(ALL) NOPASSWD: ALL' }
+        - { search: '^%strider', replace: '%strider ALL=(ALL) NOPASSWD: ALL' }
 
-    - name: Create key directory for ansible user
+    - name: Create key directory for all users
       file:
         path: /home/sybil/.ssh
         state: directory
+      loop:
+        - /home/aragorn/.ssh
+        - /home/sybil/.ssh
+        - /home/strider/.ssh
+      become: true
+
+    - name: Copy local public keys
+      copy:
+        src: "{{ item.from }}"
+        dest: "{{ item.to }}"
+      loop:
+        - { from: '/home/aragorn/.ssh/authorized_keys', to: '/home/aragorn/.ssh/authorized_keys' }
+        - { from: '/home/strider/.ssh/authorized_keys', to: '/home/strider/.ssh/authorized_keys' }
       become: true
 
     - name: Add ansible user public key
