@@ -58,3 +58,8 @@
         user: sybil
         state: present
         key: https://github.com/srsnowden.keys
+
+    - name: Restart ssh
+      systemd:
+        name: sshd
+        state: restarted

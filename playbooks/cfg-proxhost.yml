@@ -1,6 +1,6 @@
 ---
 
-- hosts: boxy
+- hosts: proxhost
 
   tasks:
     - name: Switch to free proxmox repository
@@ -59,4 +59,10 @@
           AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
           AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
           AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
+      become: true
+
+    - name: Restart sshd
+      systemd:
+        name: sshd
+        state: restarted
       become: true
