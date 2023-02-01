@@ -1,29 +1,6 @@
 ---
 
-- hosts: localhost
-
-  gather_facts: no
-
-  vars_prompt:
-    - name: host_ip
-      prompt: Enter host ip
-      private: false
-
-    - name: pass_in
-      prompt: Enter root account password
-      private: true
-
-  tasks:
-    - add_host:
-        name: "{{ host_ip }}"
-        root_pw: "{{ pass_in }}"
-        groups: target_host
-
-- hosts: target_host
-
-  vars:
-    ansible_user: root
-    ansible_password: "{{ root_pw }}"
+- hosts: boxy
 
   tasks:
     - name: Switch to free proxmox repository
@@ -33,10 +10,7 @@
       loop:
         - { target: 'deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise', action: 'absent'}
         - { target: 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription', action: 'present'}
-
-    - name: Install packages
-      apt:
-        name: sudo
+      become: true
         
     - name: Create users
       user:
@@ -45,8 +19,8 @@
         groups: sudo
       loop:
         - aragorn
-        - sybil
         - strider
+      become: true
 
     - name: Enable passwordless sudo
       lineinfile:
@@ -56,17 +30,17 @@
         line: "{{ item.replace }}"
       loop:
         - { search: '^%aragorn', replace: '%aragorn ALL=(ALL) NOPASSWD: ALL' }
-        - { search: '^%sybil', replace: '%sybil ALL=(ALL) NOPASSWD: ALL' }
         - { search: '^%strider', replace: '%strider ALL=(ALL) NOPASSWD: ALL' }
+      become: true
 
-    - name: Create key directory for ansible user
+    - name: Create key directories
       file:
         path: "{{ item }}"
         state: directory
       loop:
         - '/home/aragorn/.ssh'
-        - '/home/sybil/.ssh'
         - '/home/strider/.ssh'
+      become: true
 
     - name: Copy local public keys
       copy:
@@ -77,12 +51,6 @@
         - { from: '/home/strider/.ssh/authorized_keys', to: '/home/strider/.ssh/authorized_keys' }
       become: true
 
-    - name: Add ansible user public key
-      ansible.posix.authorized_key:
-        user: sybil
-        state: present
-        key: https://github.com/srsnowden.keys
-
     - name: Update sshd_config
       blockinfile:
         path: /etc/ssh/sshd_config
@@ -91,8 +59,4 @@
           AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
           AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
           AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
-
-    - name: Restart sshd
-      systemd:
-        name: sshd
-        state: restarted
+      become: true
