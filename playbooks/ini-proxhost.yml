@@ -34,12 +34,14 @@
     - name: Install sudo
       apt:
         name: sudo
+      become: true
 
     - name: Create ansible user
       user:
         name: sybil
         append: true
         groups: sudo
+      become: true
 
     - name: Enable passwordless sudo
       lineinfile:
@@ -47,19 +49,23 @@
         state: present
         regexp: '^%sybil'
         line: '%sybil ALL=(ALL) NOPASSWD: ALL'
+      become: true
 
     - name: Create key directory for ansible user
       file:
         path: /home/sybil/.ssh
         state: directory
+      become: true
 
     - name: Add ansible user public key
       ansible.posix.authorized_key:
         user: sybil
         state: present
         key: https://github.com/srsnowden.keys
+      become: true
 
     - name: Restart ssh
       systemd:
         name: sshd
         state: restarted
+      become: true
