@@ -55,7 +55,7 @@
       blockinfile:
         path: /etc/ssh/sshd_config
         block: |
-          AllowUsers root@localhost
+          AllowUsers root@localhost root@192.168.10.30
           AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
           AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
           AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
