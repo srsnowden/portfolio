@@ -242,6 +242,13 @@
        - '^enable-reflector=*'
       become: true
 
+    - name: Install Python libraries
+      pip:
+        name: "{{ item }}"
+      loop:
+        - Pillow
+        - yattag
+
   handlers:
     - name: restart samba
       systemd:
