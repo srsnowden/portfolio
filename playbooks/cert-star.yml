@@ -3,7 +3,6 @@
 - hosts: localhost
 
   vars:
-    crt_path: /dist/keys
     crt_cn: "*.spencers.house"
     crt_name: star.spencers.house
     cloudflare_email: "srsnowden@gmail.com"
@@ -20,27 +19,27 @@
   tasks:
     - name: generate account key
       openssl_privatekey:
-        path: "{{ crt_path }}/acme-key.pem"
+        path: "{{ dist.cert }}/acme-key.pem"
         size: 4096
 
     - name: generate signing key
       openssl_privatekey:
-        path: "{{ crt_path }}/{{ crt_name }}.pem"
+        path: "{{ dist.cert }}/{{ crt_name }}.pem"
         size: 4096
 
     - name: generate csr
       openssl_csr:
-        path: "{{ crt_path }}/{{ crt_name }}.csr"
-        privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
+        path: "{{ dist.cert }}/{{ crt_name }}.csr"
+        privatekey_path: "{{ dist.cert }}/{{ crt_name }}.pem"
         common_name: "{{ crt_cn }}"
 
     - name: create acme challenge
       acme_certificate:
         acme_version: 2
         terms_agreed: yes
-        account_key_src: "{{ crt_path }}/acme-key.pem"
-        src: "{{ crt_path }}/{{ crt_name }}.csr"
-        cert: "{{ crt_path }}/{{ crt_name }}.crt"
+        account_key_src: "{{ dist.cert }}/acme-key.pem"
+        src: "{{ dist.cert }}/{{ crt_name }}.csr"
+        cert: "{{ dist.cert }}/{{ crt_name }}.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 60
@@ -56,7 +55,7 @@
         value: "{{ challenge.challenge_data[crt_cn]['dns-01'].resource_value }}"
         solo: true
         state: present
-        TTL: 120
+        ttl: 120
       when: challenge is changed
 
     - name: pause 10 seconds for station identification
@@ -67,11 +66,11 @@
     - name: validate acme challenge
       acme_certificate:
         acme_version: 2
-        account_key_src: "{{ crt_path }}/acme-key.pem"
-        src: "{{ crt_path }}/{{ crt_name }}.csr"
-        cert: "{{ crt_path }}/{{ crt_name }}.crt"
-        fullchain: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
-        chain: "{{ crt_path }}/{{ crt_name }}-intermediate.crt"
+        account_key_src: "{{ dist.cert }}/acme-key.pem"
+        src: "{{ dist.cert }}/{{ crt_name }}.csr"
+        cert: "{{ dist.cert }}/{{ crt_name }}.crt"
+        fullchain: "{{ dist.cert }}/{{ crt_name }}-fullchain.crt"
+        chain: "{{ dist.cert }}/{{ crt_name }}-intermediate.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 60
@@ -81,15 +80,15 @@
 
     - name: remove account key
       openssl_privatekey:
-        path: "{{ crt_path }}/acme-key.pem"
+        path: "{{ dist.cert }}/acme-key.pem"
         state: absent
       when: challenge is changed
 
     - name: generate pkcs12
       openssl_pkcs12:
-        path: "{{ crt_path }}/{{ crt_name }}.p12"
-        certificate_path: "{{ crt_path }}/{{ crt_name }}-fullchain.crt"
-        privatekey_path: "{{ crt_path }}/{{ crt_name }}.pem"
+        path: "{{ dist.cert }}/{{ crt_name }}.p12"
+        certificate_path: "{{ dist.cert }}/{{ crt_name }}-fullchain.crt"
+        privatekey_path: "{{ dist.cert }}/{{ crt_name }}.pem"
         friendly_name: "{{ crt_name }}"
 
 - hosts: palantir
