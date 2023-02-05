@@ -55,7 +55,7 @@
         value: "{{ challenge.challenge_data[crt_cn]['dns-01'].resource_value }}"
         solo: true
         state: present
-        TTL: 120
+        ttl: 120
       when: challenge is changed
 
     - name: pause 10 seconds for station identification
