@@ -31,11 +31,6 @@
     ansible_password: "{{ userpass }}"
 
   tasks:   
-    - name: Install sudo
-      apt:
-        name: sudo
-      become: true
-
     - name: Create ansible user
       user:
         name: sybil

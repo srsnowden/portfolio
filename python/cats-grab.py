@@ -42,5 +42,3 @@ for count, filename in enumerate(os.listdir(up_dir)):
     img.save(th_dst)
 
     imgnum += 1
-
-print i

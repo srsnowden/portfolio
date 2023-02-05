@@ -1,0 +1,85 @@
+﻿---
+
+- hosts: localhost
+
+  vars:
+    crt_cn: "mail.spencers.house"
+    crt_name: mail.spencers.house
+    cloudflare_email: "srsnowden@gmail.com"
+    cloudflare_zone: spencers.house
+    cloudflare_api: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          38346134663665663138616662346531643235646237306236316337646561356532373066376233
+          3032386339643634366161363561623132303531653837630a353865336138366232366464653736
+          35633236363065633864646136363666336139643733323636623837663434393039613132316231
+          6237616432393765310a646134313137633666613235636364373233663530363932376536386466
+          36613333653032633362393832663663656634353563396634323937323263316230663438623634
+          3532626534633138386333353531633166353039396161333936
+
+  tasks:
+    - name: generate account key
+      openssl_privatekey:
+        path: "{{ dist.cert }}/acme-key.pem"
+        size: 4096
+
+    - name: generate signing key
+      openssl_privatekey:
+        path: "{{ dist.cert }}/{{ crt_name }}.pem"
+        size: 4096
+
+    - name: generate csr
+      openssl_csr:
+        path: "{{ dist.cert }}/{{ crt_name }}.csr"
+        privatekey_path: "{{ dist.cert }}/{{ crt_name }}.pem"
+        common_name: "{{ crt_cn }}"
+
+    - name: create acme challenge
+      acme_certificate:
+        acme_version: 2
+        terms_agreed: yes
+        account_key_src: "{{ dist.cert }}/acme-key.pem"
+        src: "{{ dist.cert }}/{{ crt_name }}.csr"
+        cert: "{{ dist.cert }}/{{ crt_name }}.crt"
+        challenge: dns-01
+        acme_directory: https://acme-v02.api.letsencrypt.org/directory
+        remaining_days: 60
+      register: challenge
+
+    - name: create cloudflare TXT record
+      cloudflare_dns:
+        api_token: "{{ cloudflare_api }}"
+        account_email: "{{ cloudflare_email }}"
+        zone: "{{ cloudflare_zone }}"
+        record: "{{ challenge.challenge_data[crt_cn]['dns-01'].record }}"
+        type: TXT
+        value: "{{ challenge.challenge_data[crt_cn]['dns-01'].resource_value }}"
+        solo: true
+        state: present
+        TTL: 120
+      when: challenge is changed
+
+    - name: pause 10 seconds for station identification
+      wait_for:
+        timeout: 10
+      become: true
+
+    - name: validate acme challenge
+      acme_certificate:
+        acme_version: 2
+        account_key_src: "{{ dist.cert }}/acme-key.pem"
+        src: "{{ dist.cert }}/{{ crt_name }}.csr"
+        cert: "{{ dist.cert }}/{{ crt_name }}.crt"
+        fullchain: "{{ dist.cert }}/{{ crt_name }}-fullchain.crt"
+        chain: "{{ dist.cert }}/{{ crt_name }}-intermediate.crt"
+        challenge: dns-01
+        acme_directory: https://acme-v02.api.letsencrypt.org/directory
+        remaining_days: 60
+        data: "{{ challenge }}"
+        request_timeout: 30
+      when: challenge is changed
+
+    - name: remove account key
+      openssl_privatekey:
+        path: "{{ dist.cert }}/acme-key.pem"
+        state: absent
+      when: challenge is changed
