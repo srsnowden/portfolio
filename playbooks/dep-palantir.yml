@@ -8,12 +8,12 @@
   tasks:
     - name: Set hostname
       hostname:
-        name: palantir
+        name: {{ ansible_hostname }}
 
     - name: Update host file
       lineinfile:
         path: /etc/hosts
-        line: '127.0.0.1    palantir'
+        line: '127.0.0.1    {{ ansible_hostname }}'
       become: true
 
     - name: Disable ssh password authentication
