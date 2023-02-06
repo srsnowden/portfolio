@@ -1,0 +1,28 @@
+---
+
+- hosts: localhost
+
+  gather_facts: no
+
+  vars_prompt:
+    - name: username
+      prompt: Enter user name
+      private: false
+
+    - name: userpass
+      prompt: Enter password
+      private: true
+
+- hosts: test
+
+  tasks:   
+    - name: Include sybil role
+      include_role:
+        name: sybil
+      vars:
+        ansible_user: {{ username }}
+        ansible_password: {{ userpass }}
+
+    - name: Print current user
+      debug:
+        msg: "{{ ansible_user }}"

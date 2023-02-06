@@ -17,6 +17,7 @@ pihole ansible_host=192.168.10.100
 vault ansible_host=192.168.10.105
 media ansible_host=192.168.10.110
 mail ansible_host=192.168.10.115
+test ansible_host=192.168.10.199
 
 [network]
 mikro ansible_host=192.168.2.1
