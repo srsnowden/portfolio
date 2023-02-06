@@ -13,11 +13,14 @@
       prompt: Enter password
       private: true
 
-- hosts: test
+  tasks:
+    - add_host:
+        name: "{{ hostvars['test'].ansible_host }}"
+        ansible_user: "{{ username }}"
+        ansible_password: "{{ userpass }}"
+        groups: sybil_temp
 
-  vars:
-    ansible_user: "{{ username }}"
-    ansible_password: "{{ userpass }}"
+- hosts: sybil_temp
 
   tasks:   
     - name: Include sybil role
