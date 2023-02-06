@@ -15,14 +15,18 @@
 
 - hosts: test
 
+  vars:
+    ansible_user: "{{ username }}"
+    ansible_password: "{{ userpass }}"
+
   tasks:   
     - name: Include sybil role
       include_role:
         name: sybil
-      vars:
-        ansible_user: "{{ username }}"
-        ansible_password: "{{ userpass }}"
 
-    - name: Print current user
+- hosts: test
+
+  tasks:
+    - name: Print ansible user
       debug:
         msg: "{{ ansible_user }}"
