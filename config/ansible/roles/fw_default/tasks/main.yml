@@ -18,6 +18,14 @@
     jump: ACCEPT
   become: true
 
+- name: fw input - accept established, related
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    in_interface: "{{ in_if | default(omit) }}"
+    jump: ACCEPT
+  become: true
+
 - name: Add default proxmox rules
   import_tasks: proxmox.yml
   when: inventory_hostname in groups['proxmox']
