@@ -22,10 +22,8 @@
 
 - hosts: sybil_temp
 
-  tasks:   
-    - name: Include sybil role
-      include_role:
-        name: sybil
+  roles:
+    - sybil
 
 - hosts: test
 
