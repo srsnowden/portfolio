@@ -3,5 +3,5 @@
 - hosts: palantir
 
   roles:
-    - role: fw_default
-      limit_if: eth0
+    - role: sshd
+      in_if: eth0

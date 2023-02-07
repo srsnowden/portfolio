@@ -5,6 +5,7 @@
     source: "{{ hostvars['pihole'].ansible_host }}"
     protocol: udp
     source_port: 53
+    in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT
   become: true
 
@@ -13,8 +14,8 @@
     chain: INPUT
     source: 192.168.0.0/16
     protocol: icmp
+    in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT
-    in_interface: "{{ limit_if | default(omit) }}"
   become: true
 
 - name: fw input - default drop

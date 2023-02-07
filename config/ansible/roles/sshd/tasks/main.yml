@@ -8,6 +8,18 @@
   loop:
     - '^\#PasswordAuthentication*'
     - '^PasswordAuthentication*'
+  notify: "restart sshd"
+
+- name: Comment out root login setting
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item }}"
+    line: '#PermitRootLogin prohibit-password'
+  become: true
+  loop:
+    - '^\#PermitRootLogin*'
+    - '^\PermitRootLogin*'
+  notify: "restart sshd"
 
 - name: Set allowed users
   blockinfile:
@@ -17,6 +29,7 @@
       AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
       AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
   become: true
+  notify: "restart sshd"
 
 - name: accept ssh from pcs/ansible
   iptables:
@@ -25,15 +38,10 @@
     protocol: tcp
     destination: "{{ ansible_host }}"
     destination_port: 22
+    in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT
   loop:
     - "{{ hostvars['tower'].ansible_host }}"
     - "{{ hostvars['laptop'].ansible_host }}"
     - "{{ hostvars['nexus'].ansible_host }}"
-  become: true
-
-- name: Restart sshd
-  systemd:
-    name: sshd
-    state: restarted
   become: true
