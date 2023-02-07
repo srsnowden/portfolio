@@ -39,7 +39,7 @@
 - name: Add allowed user - prox default
   import_tasks: proxdefault.yml
   when:
-    - ansible_host in groupst['proxmox']
+    - ansible_host in groups['proxmox']
     - ansible_hostname != server.proxmain
 
 - name: accept ssh from pcs/ansible
