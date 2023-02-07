@@ -1,0 +1,8 @@
+﻿---
+- name: Set allowed user - prox default
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: AllowUsers root@{{ hostvars['boxy'].ansible_host }}
+    marker: "# {mark} PROXMOX SSH USER"
+  become: true
+  notify: "restart sshd"

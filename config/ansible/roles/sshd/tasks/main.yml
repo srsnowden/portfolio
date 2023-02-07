@@ -28,33 +28,19 @@
       AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
       AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
       AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
+    marker: "# {mark} DEFAULT SSH USERS"
   become: true
   notify: "restart sshd"
-  when: ansible_hostname not in groups['proxmox']
 
-- name: Set allowed users - proxmox default
-  blockinfile:
-    path: /etc/ssh/sshd_config
-    block: |
-      AllowUsers root@{{ hostvars['boxy'].ansible_host }}
-      AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
-      AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
-      AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
-  become: true
-  notify: "restart sshd"
-  when: ansible_hostname in groups['proxmox'] && ansible_hostname != server.proxmain
+- name: Add allowed user - prox main
+  import_tasks: proxmain.yml
+  when: ansible_host == server.proxmain
 
-- name: Set allowed users - proxmox cluster main
-  blockinfile:
-    path: /etc/ssh/sshd_config
-    block: |
-      AllowUsers root@localhost
-      AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
-      AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
-      AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
-  become: true
-  notify: "restart sshd"
-  when: ansible_hostname == server.proxmain
+- name: Add allowed user - prox default
+  import_tasks: proxdefault.yml
+  when:
+    - ansible_host in groupst['proxmox']
+    - ansible_hostname != server.proxmain
 
 - name: accept ssh from pcs/ansible
   iptables:

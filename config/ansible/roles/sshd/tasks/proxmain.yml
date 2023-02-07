@@ -1,0 +1,8 @@
+﻿---
+- name: Set allowed user - prox main
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: AllowUsers root@localhost
+    marker: "# {mark} PROXMOX SSH USER"
+  become: true
+  notify: "restart sshd"
