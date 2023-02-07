@@ -2,7 +2,7 @@
 - name: fw input - allow all from prox ips
   iptables:
     chain: INPUT
-    source: "{{ item }}"
+    source: "{{ item }}:{{ hostvars[item].ansible_host }}"
     jump: ACCEPT
   with_items: "{{ groups['proxmox'] }}"
   become: true
