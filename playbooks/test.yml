@@ -1,7 +1,8 @@
 ﻿---
 
-- hosts: palantir
+- hosts: localhost
 
-  roles:
-    - role: pihost
-    - role: sshd
+  tasks:
+    - name: test
+      debug:
+        msg: "{{ ansible_hostname }}"

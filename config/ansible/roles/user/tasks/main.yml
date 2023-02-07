@@ -39,7 +39,7 @@
     src: '/home/{{ setup_user }}/.ssh/authorized_keys'
     dest: '/home/{{ setup_user }}/.ssh/authorized_keys'
   become: true
-  when: setup_user != "sybil"
+  when: setup_user != "sybil"  && ansible_hostname != "localhost"
 
 - name: Restart ssh
   systemd:
