@@ -16,3 +16,15 @@
   become: true
   when: ansible_hostname == server.proxmain
   notify: "restart sshd"
+
+- name: fw input - allow ssh from prox hosts
+  iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    protocol: tcp
+    source_port: 22
+    jump: ACCEPT
+  loop:
+    - "{{ hostvars['boxy'].ansible_host }}"
+    - "{{ hostvars['cubey'].ansible_host }}"
+  become: true

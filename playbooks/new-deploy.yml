@@ -1,0 +1,37 @@
+---
+
+- hosts: localhost
+
+  gather_facts: no
+
+  vars_prompt:
+    - name: username
+      prompt: Enter user name
+      private: false
+
+    - name: userpass
+      prompt: Enter password
+      private: true
+
+  tasks:
+    - add_host:
+        name: "{{ hostvars['palantir'].ansible_host }}"
+        ansible_user: "{{ username }}"
+        ansible_password: "{{ userpass }}"
+        groups: sybil_temp
+
+- hosts: sybil_temp
+
+  roles:
+    - role: user
+      setup_user: sybil
+
+- hosts: palantir
+
+  roles:
+    - role: user
+      setup_user: aragorn
+    - role: user
+      setup_user: strider
+    - role: sshd
+    - role: fw_default

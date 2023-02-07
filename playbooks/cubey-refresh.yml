@@ -1,0 +1,12 @@
+﻿---
+
+- hosts: cubey
+
+  roles:
+    - role: user
+      setup_user: aragorn
+    - role: user
+      setup_user: strider
+    - role: proxhost
+    - role: sshd
+    - role: fw_default

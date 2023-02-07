@@ -1,0 +1,9 @@
+﻿---
+- name: Switch to free proxmox repository
+  apt_repository:
+    repo: "{{ item.target }}"
+    state: "{{ item.action }}"
+  loop:
+    - { target: 'deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise', action: 'absent'}
+    - { target: 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription', action: 'present'}
+  become: true
