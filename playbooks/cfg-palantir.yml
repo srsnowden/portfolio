@@ -11,7 +11,7 @@
 
     - name: Copy nginx confs
       copy:
-        src: /repos/serenity/config/palantir/nginx/
+        src: "{{ conf.nginx }}"
         dest: /etc/nginx/
       become: true
       notify: "restart nginx"

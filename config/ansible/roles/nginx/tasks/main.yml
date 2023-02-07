@@ -1,0 +1,31 @@
+﻿---
+- name: Install packages
+  apt:
+    name:
+      - nginx
+  become: true
+
+- name: Sync nginx confs
+  ansible.posix.synchronize:
+    src: "{{ conf.nginx }}"
+    dest: /etc/nginx/
+  become: true
+  notify: "restart nginx"
+
+- name: Copy certificates
+  copy:
+    src: "{{ item }}"
+    dest: "{{ www.cert }}/"
+    force: true
+  loop:
+    - "{{ dist.cert }}/{{ cert.star }}"
+    - "{{ dist.cert }}/{{ cert.star_fc }}"
+  become: true
+  notify: "restart nginx"
+
+- name: Sync cats site
+  ansible.posix.synchronize:
+    src: "{{ dist.cats }}"
+    dest: "{{ www.cats }}"
+  become: true
+  notify: "restart nginx"

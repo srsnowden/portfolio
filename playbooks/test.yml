@@ -2,7 +2,5 @@
 
 - hosts: localhost
 
-  tasks:
-    - name: test
-      debug:
-        msg: "{{ ansible_hostname }}"
+  roles:
+    - role: nginx
