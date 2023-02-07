@@ -14,7 +14,7 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "{{ item }}"
-    line: \#PermitRootLogin prohibit-password
+    line: '#PermitRootLogin prohibit-password'
   become: true
   loop:
     - '^\#PermitRootLogin*'
@@ -39,7 +39,7 @@
 - name: Add allowed user - prox default
   import_tasks: proxdefault.yml
   when:
-    - ansible_host in groups['proxmox']
+    - inventory_hostname in groups['proxmox']
     - ansible_hostname != server.proxmain
 
 - name: accept ssh from pcs/ansible
