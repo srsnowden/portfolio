@@ -1,0 +1,10 @@
+﻿---
+- name: fw input - allow all from prox hosts
+  iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    jump: ACCEPT
+  loop:
+    - "{{ hostvars['boxy'].ansible_host }}"
+    - "{{ hostvars['cubey'].ansible_host }}"
+  become: true

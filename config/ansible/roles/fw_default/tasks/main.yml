@@ -18,6 +18,10 @@
     jump: ACCEPT
   become: true
 
+- name: Add default proxmox rules
+  import_tasks: proxmox.yml
+  when: inventory_hostname in groups['proxmox']
+
 - name: fw input - default drop
   iptables:
     chain: INPUT
