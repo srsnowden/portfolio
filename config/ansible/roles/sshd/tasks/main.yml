@@ -14,11 +14,11 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "{{ item }}"
-    line: '\#PermitRootLogin prohibit-password'
+    line: \#PermitRootLogin prohibit-password
   become: true
   loop:
     - '^\#PermitRootLogin*'
-    - '^\PermitRootLogin*'
+    - '^PermitRootLogin*'
   notify: "restart sshd"
 
 - name: Set allowed users - default
