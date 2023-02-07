@@ -23,14 +23,16 @@
 - hosts: sybil_temp
 
   roles:
-    - role: sybil
+    - role: user
       setup_user: sybil
-    - role: sybil
-      setup_user: aragorn
-    - role: sybil
-      setup_user: strider
 
 - hosts: test
+
+  roles:
+    - role: user
+      setup_user: aragorn
+    - role: user
+      setup_user: strider
 
   tasks:
     - name: Print ansible user
