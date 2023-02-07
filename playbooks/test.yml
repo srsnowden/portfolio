@@ -3,4 +3,5 @@
 - hosts: cubey
 
   roles:
+    - role: sshd
     - role: fw_default

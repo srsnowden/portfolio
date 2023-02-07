@@ -1,6 +1,6 @@
 ﻿---
 
-- hosts: proxhost
+- hosts: cubey
 
   roles:
     - role: user
