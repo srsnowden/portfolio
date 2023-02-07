@@ -7,7 +7,7 @@
   become: true
   loop:
     - ^PasswordAuthentication*
-    - ^\#PasswordAuthentication*
+    - '^\#PasswordAuthentication*'
   notify: "restart sshd"
 
 - name: Comment out root login setting
@@ -18,7 +18,7 @@
   become: true
   loop:
     - ^PermitRootLogin*
-    - ^\#PermitRootLogin*
+    - '^\#PermitRootLogin*'
   notify: "restart sshd"
 
 - name: Set allowed users - default
