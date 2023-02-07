@@ -1,6 +1,6 @@
 ﻿---
 
-- hosts: palantir
+- hosts: cubey
 
   roles:
-    - role: sshd
+    - role: fw-default
