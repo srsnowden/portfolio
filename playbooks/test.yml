@@ -4,3 +4,4 @@
 
   roles:
     - role: fw_default
+      limit_if: eth0
