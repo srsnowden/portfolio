@@ -1,0 +1,10 @@
+﻿---
+- name: Set hostname
+  hostname:
+    name: "{{ ansible_hostname }}"
+
+- name: Update host file
+  lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1    {{ ansible_hostname }}'
+  become: true

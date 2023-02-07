@@ -1,0 +1,19 @@
+﻿---
+- name: Disable ssh password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item }}"
+    line: PasswordAuthentication no
+  become: true
+  loop:
+    - '^\#PasswordAuthentication*'
+    - '^PasswordAuthentication*'
+
+- name: Set allowed users
+  blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      AllowUsers aragorn@{{ hostvars['tower'].ansible_host }}
+      AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
+      AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
+  become: true

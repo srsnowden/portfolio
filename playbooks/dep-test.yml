@@ -33,5 +33,6 @@
       setup_user: aragorn
     - role: user
       setup_user: strider
+    - role: pihost
 
   tasks:
