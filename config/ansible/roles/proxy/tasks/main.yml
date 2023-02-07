@@ -1,5 +1,5 @@
 ﻿---
-- name: Install packages
+- name: Install nginx
   apt:
     name:
       - nginx
@@ -29,3 +29,88 @@
     dest: "{{ www.cats }}"
   become: true
   notify: "restart nginx"
+
+- name: fw input - accept all http/s
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_ports:
+     - "80"
+     - "443"
+    jump: ACCEPT
+  become: true
+
+- name: fw input - accept response from vault
+  iptables:
+    chain: INPUT
+    source: "{{ hostvars['vault'].ansible_host }}"
+    protocol: tcp
+    ctstate: ESTABLISHED,RELATED
+    source_port: "{{ item }}"
+    jump: ACCEPT
+  loop:
+   - "80"
+   - "443"
+   - "3012"
+  become: true
+
+- name: fw output - permit all http/s response
+  iptables:
+    chain: OUTPUT
+    protocol: tcp
+    source_port: "{{ item }}"
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  loop:
+   - "80"
+   - "443"
+  become: true
+
+- name: fw output - permit ssh response to pcs/ansible
+  iptables:
+    chain: OUTPUT
+    destination: "{{ item }}"
+    protocol: tcp
+    source_port: 22
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+  loop:
+   - "{{ hostvars['tower'].ansible_host }}"
+   - "{{ hostvars['laptop'].ansible_host }}"
+   - "{{ hostvars['nexus'].ansible_host }}"
+  become: true
+
+- name: fw output - permit dns to pihole
+  iptables:
+    chain: OUTPUT
+    destination: "{{ hostvars['pihole'].ansible_host }}"
+    protocol: udp
+    destination_port: 53
+    jump: ACCEPT
+  become: true
+
+- name: fw output - permit proxy traffic to vault
+  iptables:
+    chain: OUTPUT
+    destination: "{{ hostvars['vault'].ansible_host }}"
+    protocol: tcp
+    destination_ports:
+     - "80"
+     - "443"
+     - "3012"
+    jump: ACCEPT
+  become: true
+
+- name: fw output - permit icmp to lan
+  iptables:
+    chain: OUTPUT
+    destination: 192.168.0.0/16
+    protocol: icmp
+    jump: ACCEPT
+  become: true
+
+- name: fw output - default drop
+  iptables:
+    chain: OUTPUT
+    policy: DROP
+  become: true
