@@ -30,7 +30,7 @@
       AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
   become: true
   notify: "restart sshd"
-  when: ansible_hostname not in groups["proxmox"]
+  when: ansible_hostname not in groups['proxmox']
 
 - name: Set allowed users - proxmox default
   blockinfile:
@@ -42,7 +42,7 @@
       AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
   become: true
   notify: "restart sshd"
-  when: ansible_hostname in groups["proxmox"] && ansible_hostname != server.proxmain
+  when: ansible_hostname in groups['proxmox'] && ansible_hostname != server.proxmain
 
 - name: Set allowed users - proxmox cluster main
   blockinfile:
