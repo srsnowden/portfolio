@@ -10,12 +10,9 @@
 - name: Comment out root login setting
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
+    regexp: (^PermitRootLogin*|^\#PermitRootLogin*)
     line: '#PermitRootLogin prohibit-password'
   become: true
-  loop:
-    - ^PermitRootLogin*
-    - '^\#PermitRootLogin*'
   notify: "restart sshd"
 
 - name: Set allowed users - default
