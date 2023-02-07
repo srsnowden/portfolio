@@ -17,3 +17,23 @@
       AllowUsers strider@{{ hostvars['laptop'].ansible_host }}
       AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
   become: true
+
+- name: accept ssh from pcs/ansible
+  iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    protocol: tcp
+    destination: "{{ ansible_host }}"
+    destination_port: 22
+    jump: ACCEPT
+  loop:
+    - "{{ hostvars['tower'].ansible_host }}"
+    - "{{ hostvars['laptop'].ansible_host }}"
+    - "{{ hostvars['nexus'].ansible_host }}"
+  become: true
+
+- name: Restart sshd
+  systemd:
+    name: sshd
+    state: restarted
+  become: true
