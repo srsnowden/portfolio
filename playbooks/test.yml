@@ -1,7 +1,8 @@
 ﻿---
 
-- hosts: palantir
+- hosts: test
 
   roles:
+    - role: user
+      setup_user: aragorn
     - role: sshd
-      in_if: eth0
