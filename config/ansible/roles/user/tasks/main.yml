@@ -5,7 +5,7 @@
       - sudo
   when: ansible_user == "root"
 
-- name: Create ansible user
+- name: Create user
   user:
     name: "{{ setup_user }}"
     append: true
@@ -20,7 +20,7 @@
     line: '%{{ setup_user }} ALL=(ALL) NOPASSWD: ALL'
   become: true
 
-- name: Create key directory for ansible user
+- name: Create key directory
   file:
     path: /home/{{ setup_user }}/.ssh
     state: directory
