@@ -26,12 +26,20 @@
     state: directory
   become: true
 
-- name: Add ansible user public key
+- name: Add public key (ansible user)
   ansible.posix.authorized_key:
     user: "{{ setup_user }}"
     state: present
     key: https://github.com/srsnowden.keys
   become: true
+  when: "{{ setup_user }}" == "sybil"
+
+- name: Add public key (admin user)
+  copy:
+    src: '/home/{{ setup_user }}/.ssh/authorized_keys'
+    dest: '/home/{{ setup_user }}/.ssh/authorized_keys'
+  become: true
+  when: "{{ setup_user }}" != "sybil"
 
 - name: Restart ssh
   systemd:
