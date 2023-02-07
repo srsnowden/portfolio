@@ -3,11 +3,4 @@
 - hosts: palantir
 
   roles:
-    - role: user
-      setup_user: aragorn
-    - role: user
-      setup_user: strider
-    - role: pihost
     - role: sshd
-    - role: proxy
-    - role: fw_default
