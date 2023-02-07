@@ -1,0 +1,24 @@
+﻿---
+- name: fw input - accept dns from pihole
+  iptables:
+    chain: INPUT
+    source: "{{ hostvars['pihole'].ansible_host }}"
+    protocol: udp
+    source_port: 53
+    jump: ACCEPT
+  become: true
+
+- name: fw input - accept icmp from lan
+  iptables:
+    chain: INPUT
+    source: 192.168.0.0/16
+    protocol: icmp
+    jump: ACCEPT
+    in_interface: "{{ limit_if | default(omit) }}"
+  become: true
+
+- name: fw input - default drop
+  iptables:
+    chain: INPUT
+    policy: DROP
+  become: true

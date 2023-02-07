@@ -3,4 +3,4 @@
 - hosts: palantir
 
   roles:
-    - role: proxy
+    - role: fw_default

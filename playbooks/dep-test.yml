@@ -35,5 +35,5 @@
       setup_user: strider
     - role: pihost
     - role: sshd
-
-  tasks:
+    - role: proxy
+    - role: fw_default
