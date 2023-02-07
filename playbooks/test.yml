@@ -3,6 +3,4 @@
 - hosts: test
 
   roles:
-    - role: user
-      setup_user: aragorn
     - role: sshd

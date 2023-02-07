@@ -32,15 +32,9 @@
   become: true
   notify: "restart sshd"
 
-- name: Add allowed user - prox main
-  import_tasks: proxmain.yml
-  when: ansible_host == server.proxmain
-
-- name: Add allowed user - prox default
-  import_tasks: proxdefault.yml
-  when:
-    - inventory_hostname in groups['proxmox']
-    - ansible_hostname != server.proxmain
+- name: Add root to allowed users - proxmox
+  import_tasks: proxmox.yml
+  when: inventory_hostname in groups['proxmox']
 
 - name: accept ssh from pcs/ansible
   iptables:
