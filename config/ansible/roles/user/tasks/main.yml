@@ -39,10 +39,6 @@
     src: '/home/{{ setup_user }}/.ssh/authorized_keys'
     dest: '/home/{{ setup_user }}/.ssh/authorized_keys'
   become: true
-  when: setup_user != "sybil"  && ansible_hostname != server.hub
-
-- name: Restart ssh
-  systemd:
-    name: sshd
-    state: restarted
-  become: true
+  when: 
+    - setup_user != "sybil"
+    - ansible_hostname != server.hub
