@@ -4,5 +4,12 @@
     chain: INPUT
     source: "{{ hostvars[item].ansible_host }}"
     jump: ACCEPT
-  with_items: "{{ groups['proxmox'] }}"
+  with_items: "{{ groups['proxhost'] }}"
+  become: true
+
+- name: fw input - allow all on localhost
+  iptables:
+    chain: INPUT
+    source: 127.0.0.1
+    jump: ACCEPT
   become: true
