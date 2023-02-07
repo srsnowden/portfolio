@@ -8,7 +8,7 @@
 - name: Sync nginx confs
   ansible.posix.synchronize:
     src: "{{ conf.nginx }}"
-    dest: /etc/nginx
+    dest: /etc/
   become: true
   notify: "restart nginx"
 
