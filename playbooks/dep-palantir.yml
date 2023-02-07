@@ -8,7 +8,7 @@
   tasks:
     - name: Set hostname
       hostname:
-        name: {{ ansible_hostname }}
+        name: "{{ ansible_hostname }}"
 
     - name: Update host file
       lineinfile:

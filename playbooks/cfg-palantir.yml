@@ -19,7 +19,7 @@
     - name: Copy certificates
       copy:
         src: "{{ item }}"
-        dest: "{{ web.cert }}/"
+        dest: "{{ www.cert }}/"
         force: true
       loop:
         - "{{ dist.cert }}/{{ cert.star }}"
@@ -30,7 +30,7 @@
     - name: Sync cats site
       ansible.posix.synchronize:
         src: "{{ dist.cats }}"
-        dest: "{{ web.cats }}"
+        dest: "{{ www.cats }}"
       become: true
       notify: "restart nginx"
   

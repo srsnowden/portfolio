@@ -7,7 +7,7 @@
 
 - name: Create ansible user
   user:
-    name: sybil
+    name: "{{ setup_user }}"
     append: true
     groups: sudo
   become: true
@@ -16,19 +16,19 @@
   lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: '^%sybil'
-    line: '%sybil ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^%{{ setup_user }}'
+    line: '%{{ setup_user }} ALL=(ALL) NOPASSWD: ALL'
   become: true
 
 - name: Create key directory for ansible user
   file:
-    path: /home/sybil/.ssh
+    path: /home/{{ setup_user }}/.ssh
     state: directory
   become: true
 
 - name: Add ansible user public key
   ansible.posix.authorized_key:
-    user: sybil
+    user: "{{ setup_user }}"
     state: present
     key: https://github.com/srsnowden.keys
   become: true

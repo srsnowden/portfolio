@@ -13,3 +13,8 @@ cert:
   star: star.spencers.house.pem
   star_fc: star.spencers.house-fullchain.crt
   star_p12: star.spencers.house.p12
+
+www:
+  home: /data
+  cats: /data/cats
+  cert: /data/cert
