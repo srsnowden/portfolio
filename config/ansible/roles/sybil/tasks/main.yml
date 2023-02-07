@@ -32,14 +32,14 @@
     state: present
     key: https://github.com/srsnowden.keys
   become: true
-  when: "{{ setup_user }}" == "sybil"
+  when: setup_user == "sybil"
 
 - name: Add public key (admin user)
   copy:
     src: '/home/{{ setup_user }}/.ssh/authorized_keys'
     dest: '/home/{{ setup_user }}/.ssh/authorized_keys'
   become: true
-  when: "{{ setup_user }}" != "sybil"
+  when: setup_user != "sybil"
 
 - name: Restart ssh
   systemd:
