@@ -20,4 +20,4 @@ www:
   cert: /data/cert
 
 conf:
-  nginx: /repos/serenity/config/palantir/nginx/
+  nginx: /repos/serenity/config/palantir/nginx
