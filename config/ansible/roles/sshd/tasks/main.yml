@@ -3,7 +3,7 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "{{ item }}"
-    line: PasswordAuthentication no
+    line: 'PasswordAuthentication no'
   become: true
   loop:
     - '^\#PasswordAuthentication*'
