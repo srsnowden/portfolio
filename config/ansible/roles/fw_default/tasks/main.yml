@@ -24,7 +24,7 @@
     ctstate: ESTABLISHED,RELATED
     in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT
-  when: ansible.host != server.proxy
+  when: ansible_hostname != server.proxy
   become: true
 
 - name: Add default proxmox rules
