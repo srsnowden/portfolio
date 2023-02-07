@@ -25,6 +25,10 @@
   roles:
     - role: sybil
       setup_user: sybil
+    - role: sybil
+      setup_user: aragorn
+    - role: sybil
+      setup_user: strider
 
 - hosts: test
 
