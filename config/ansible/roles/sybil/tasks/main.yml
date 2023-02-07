@@ -1,4 +1,10 @@
 ﻿---
+- name: install sudo
+  apt:
+    name: 
+      - sudo
+  when: ansible_user == "root"
+
 - name: Create ansible user
   user:
     name: sybil
