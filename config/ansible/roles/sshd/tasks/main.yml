@@ -2,12 +2,9 @@
 - name: Disable ssh password authentication
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: "{{ item }}"
+    regexp: (^PasswordAuthentication*|^\#PasswordAuthentication*)
     line: PasswordAuthentication no
   become: true
-  loop:
-    - ^PasswordAuthentication*
-    - '^\#PasswordAuthentication*'
   notify: "restart sshd"
 
 - name: Comment out root login setting
