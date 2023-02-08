@@ -18,7 +18,7 @@
     dest: "{{ www.cert }}/"
     force: true
   loop:
-    - "{{ dist.cert }}/{{ cert.star }}"
+    - "{{ dist.cert }}/{{ cert.star_pem }}"
     - "{{ dist.cert }}/{{ cert.star_fc }}"
   become: true
   notify: "restart nginx"

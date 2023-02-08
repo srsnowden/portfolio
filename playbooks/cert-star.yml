@@ -4,7 +4,6 @@
 
   vars:
     crt_cn: "*.spencers.house"
-    crt_name: star.spencers.house
     cloudflare_email: "srsnowden@gmail.com"
     cloudflare_zone: spencers.house
     cloudflare_api: !vault |
@@ -24,13 +23,13 @@
 
     - name: generate signing key
       openssl_privatekey:
-        path: "{{ dist.cert }}/{{ crt_name }}.pem"
+        path: "{{ dist.cert }}/{{ cert.star_pem }}"
         size: 4096
 
     - name: generate csr
       openssl_csr:
-        path: "{{ dist.cert }}/{{ crt_name }}.csr"
-        privatekey_path: "{{ dist.cert }}/{{ crt_name }}.pem"
+        path: "{{ dist.cert }}/{{ cert.star_name }}.csr"
+        privatekey_path: "{{ dist.cert }}/{{ cert.star_pem }}"
         common_name: "{{ crt_cn }}"
 
     - name: create acme challenge
@@ -38,8 +37,8 @@
         acme_version: 2
         terms_agreed: yes
         account_key_src: "{{ dist.cert }}/acme-key.pem"
-        src: "{{ dist.cert }}/{{ crt_name }}.csr"
-        cert: "{{ dist.cert }}/{{ crt_name }}.crt"
+        src: "{{ dist.cert }}/{{ cert.star_name }}.csr"
+        cert: "{{ dist.cert }}/{{ cert.star_name }}.crt"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 60
@@ -67,10 +66,10 @@
       acme_certificate:
         acme_version: 2
         account_key_src: "{{ dist.cert }}/acme-key.pem"
-        src: "{{ dist.cert }}/{{ crt_name }}.csr"
-        cert: "{{ dist.cert }}/{{ crt_name }}.crt"
-        fullchain: "{{ dist.cert }}/{{ crt_name }}-fullchain.crt"
-        chain: "{{ dist.cert }}/{{ crt_name }}-intermediate.crt"
+        src: "{{ dist.cert }}/{{ cert.star_name }}.csr"
+        cert: "{{ dist.cert }}/{{ cert.star_name }}.crt"
+        fullchain: "{{ dist.cert }}/{{ cert.star_fc }}"
+        chain: "{{ dist.cert }}/{{ cert.star_int }}"
         challenge: dns-01
         acme_directory: https://acme-v02.api.letsencrypt.org/directory
         remaining_days: 60
@@ -86,10 +85,10 @@
 
     - name: generate pkcs12
       openssl_pkcs12:
-        path: "{{ dist.cert }}/{{ crt_name }}.p12"
-        certificate_path: "{{ dist.cert }}/{{ crt_name }}-fullchain.crt"
-        privatekey_path: "{{ dist.cert }}/{{ crt_name }}.pem"
-        friendly_name: "{{ crt_name }}"
+        path: "{{ dist.cert }}/{{ cert.star_p12 }}"
+        certificate_path: "{{ dist.cert }}/{{ cert.star_fc }}"
+        privatekey_path: "{{ dist.cert }}/{{ cert.star_pem }}"
+        friendly_name: "{{ cert.star_name }}"
 
 - hosts: palantir
 

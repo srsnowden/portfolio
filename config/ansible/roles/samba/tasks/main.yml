@@ -34,7 +34,7 @@
   become: true
 
 - name: Create samba user - public share
-  shell: "smbpasswd -n -a pippin"
+  shell: "smbpasswd -n -a {{ share.pubuser }}"
   become: true
 
 - name: Create samba user - private share
@@ -46,5 +46,62 @@
       65646634306130353563633631373934323231313666633935326431393236623431663335326636
       6135656663653261660a656635373538316137306338383434653562343838363233356637333337
       6139
-  shell: "(echo {{ gandalf_pw }}; echo {{ gandalf_pw }}) | smbpasswd -s -a gandalf"
+  shell: "(echo {{ gandalf_pw }}; echo {{ gandalf_pw }}) | smbpasswd -s -a {{ share.archuser }}"
+  become: true
+
+- name: Update samba config - global settings
+  blockinfile:
+    path: /etc/samba/smb.conf
+    insertafter: '\[global\]'
+    marker: "# {mark} ANSIBLE GLOBAL CONFIG"
+    block: |
+     null passwords = yes
+     interfaces = eth0
+     bind interfaces only = yes
+     netbios aliases = share, archive, proxstore
+  notify: "restart smbd"
+  become: true
+
+- name: Update samba config - share settings
+  blockinfile:
+    path: /etc/samba/smb.conf
+    marker: "# {mark} ANSIBLE SHARE CONFIG"
+    block: |
+      [share]
+          path = {{ share.pubdir }}
+          writable = yes
+          printable = no
+          public = yes
+          create mask = 0777
+          directory mask = 0777
+          force user = {{ share.pubuser }}
+          force group = {{ share.pubuser }}
+
+      [archive]
+          path = {{ share.archdir }}
+          writable = yes
+          printable = no
+          public = no
+          create mask = 0777
+          directory mask = 0777
+          valid user = {{ share.archuser }}
+
+      [backups]
+          path = {{ share.proxdir }}/backups
+          writable = yes
+          printable = no
+          public = no
+          create mask = 0777
+          directory mask = 0777
+          valid user = {{ share.archuser }}
+
+      [templates]
+          path = {{ share.proxdir }}/templates
+          writable = yes
+          printable = no
+          public = no
+          create mask = 0777
+          directory mask = 0777
+          valid user = {{ share.archuser }}
+  notify: "restart smbd"
   become: true

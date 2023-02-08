@@ -8,7 +8,6 @@ userkeypath = "/home/" + username + "/.ssh/authorized_keys"
 gitkey = input('Filename for git key: ')
 gitkeypath = "/home/" + username + "/.ssh/sybil"
 
-
 ctx = Connection(host=addr, user=username, connect_kwargs={"password":userpass})
 
 ctx.sudo('apt-get update')
@@ -21,6 +20,7 @@ ctx.sudo('mkdir /etc/ansible')
 ctx.run('mkdir /home/' + username + '/.ssh')
 ctx.put(gitkey, remote=gitkeypath)
 ctx.put(userkey, remote=userkeypath)
+ctx.run('sudo mount LABEL="ark01" /mnt/ark01')
 ctx.run('/home/' + username + '/.local/bin/ansible localhost -m ansible.builtin.git -a "repo=git@github.com:srsnowden/serenity.git clone=yes dest=/repos/serenity key_file=' + gitkeypath + ' accept_newhostkey=true" -b')
 ctx.run('/home/' + username + '/.local/bin/ansible localhost -m ansible.posix.synchronize -a "src=/repos/serenity/config/ansible/ dest=/etc/ansible/" -b')
 ctx.run('/home/' + username + '/.local/bin/ansible-playbook /repos/serenity/playbooks/nexus-refresh.yml')
