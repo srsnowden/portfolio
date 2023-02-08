@@ -1,0 +1,20 @@
+---
+- name: Copy certificates
+  copy:
+    src: "{{ item }}"
+    dest: "{{ www.cert }}/"
+    force: true
+  loop:
+    - "{{ dist.cert }}/{{ cert.star_pem }}"
+    - "{{ dist.cert }}/{{ cert.star_fc }}"
+  become: true
+  notify: "restart nginx"
+  tags: d_proxycert
+
+- name: Sync cats site
+  ansible.posix.synchronize:
+    src: "{{ dist.cats }}"
+    dest: "{{ www.cats }}"
+  become: true
+  notify: "restart nginx"
+  tags: d_wwwcats

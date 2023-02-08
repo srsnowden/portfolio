@@ -12,23 +12,15 @@
   become: true
   notify: "restart nginx"
 
-- name: Copy certificates
-  copy:
-    src: "{{ item }}"
-    dest: "{{ www.cert }}/"
-    force: true
-  loop:
-    - "{{ dist.cert }}/{{ cert.star_pem }}"
-    - "{{ dist.cert }}/{{ cert.star_fc }}"
-  become: true
-  notify: "restart nginx"
+- name: Include deploy - proxy certificates
+  include_role:
+    name: deploy
+  tags: d_proxycert
 
-- name: Sync cats site
-  ansible.posix.synchronize:
-    src: "{{ dist.cats }}"
-    dest: "{{ www.cats }}"
-  become: true
-  notify: "restart nginx"
+- name: Include deploy - cats site
+  include_role:
+    name: deploy
+  tags: d_wwwcats
 
 - name: fw input - accept all http/s
   iptables:

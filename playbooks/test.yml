@@ -3,4 +3,6 @@
 - hosts: localhost
 
   roles:
-    - role: nexus
+    - role: cert_create
+      cert_cn: "*.spencers.house"
+      cert_name: star.spencers.house

@@ -1,0 +1,71 @@
+---
+- name: generate temporary acme request key
+  openssl_privatekey:
+    path: "{{ dist.cert }}/acme-key.pem"
+    size: 4096
+
+- name: generate private key
+  openssl_privatekey:
+    path: "{{ dist.cert }}/{{ cert_name }}.pem"
+    size: 4096
+
+- name: generate csr
+  openssl_csr:
+    path: "{{ dist.cert }}/{{ cert_name }}.csr"
+    privatekey_path: "{{ dist.cert }}/{{ cert_name }}.pem"
+    common_name: "{{ cert_cn }}"
+
+- name: create acme challenge
+  acme_certificate:
+    acme_version: 2
+    terms_agreed: yes
+    account_key_src: "{{ dist.cert }}/acme-key.pem"
+    src: "{{ dist.cert }}/{{ cert_name }}.csr"
+    cert: "{{ dist.cert }}/{{ cert_name }}.crt"
+    challenge: dns-01
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    remaining_days: 60
+  register: challenge
+
+- name: create cloudflare TXT record
+  cloudflare_dns:
+    api_token: "{{ cloudflare_api }}"
+    account_email: "{{ cloudflare_email }}"
+    zone: "{{ cloudflare_zone }}"
+    record: "{{ challenge.challenge_data[cert_cn]['dns-01'].record }}"
+    type: TXT
+    value: "{{ challenge.challenge_data[cert_cn]['dns-01'].resource_value }}"
+    solo: true
+    state: present
+    ttl: 120
+  when: challenge is changed
+
+- name: pause 10 seconds for station identification
+  wait_for:
+    timeout: 10
+  become: true
+
+- name: validate acme challenge
+  acme_certificate:
+    acme_version: 2
+    account_key_src: "{{ dist.cert }}/acme-key.pem"
+    src: "{{ dist.cert }}/{{ cert_name }}.csr"
+    cert: "{{ dist.cert }}/{{ cert_name }}.crt"
+    fullchain: "{{ dist.cert }}/{{ cert_name }}-fullchain.crt"
+    chain: "{{ dist.cert }}/{{ cert_name}}-intermediate.crt"
+    challenge: dns-01
+    acme_directory: https://acme-v02.api.letsencrypt.org/directory
+    remaining_days: 60
+    data: "{{ challenge }}"
+    request_timeout: 30
+  when: challenge is changed
+
+- name: remove temporary acme key
+  openssl_privatekey:
+    path: "{{ dist.cert }}/acme-key.pem"
+    state: absent
+  when: challenge is changed
+
+- name: generate pkcs12
+  import_tasks: pkcs12.yml
+  when: pkcs12 == "create"
