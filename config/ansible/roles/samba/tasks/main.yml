@@ -30,5 +30,5 @@
   loop:
     - { dir: "{{ share.pubdir }}", usr: "{{ share.pubuser }}", grp: "{{ share.pubuser }}" }
     - { dir: "{{ share.archdir }}", usr: "{{ share.archuser }}", grp: "{{ share.archuser }}" }
-    - { dir: "{{ share.proxdir }}", usr: "{{ share.pubuser }}", grp: "{{ share.pubuser }}" }
+    - { dir: "{{ share.proxdir }}", usr: "{{ share.archuser }}", grp: "{{ share.archuser }}" }
   become: true
