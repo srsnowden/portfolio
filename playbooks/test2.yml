@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: Create dist
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - " {{ dist }} "
+      become: true

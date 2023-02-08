@@ -15,6 +15,7 @@
     - "{{ dist.home }}"
     - "{{ dist.cats }}"
     - "{{ dist.cert }}"
+    - "{{ dist.temp }}"
   become: true
 
 - name: Change dist ownership
