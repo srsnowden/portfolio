@@ -50,4 +50,4 @@
 
 - name: Rebuild data from backup
   import_tasks: rebuild.yml
-  when: rebuild == yes
+  when: rebuild == "full"
