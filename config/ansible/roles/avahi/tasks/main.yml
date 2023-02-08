@@ -2,7 +2,7 @@
 - name: Install pacakages
   apt:
     name:
-      - avahi
+      - avahi-daemon
       - vlan
   become: true
 
