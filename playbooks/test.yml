@@ -3,4 +3,9 @@
 - hosts: localhost
 
   roles:
-    - role: avahi
+    - role: nexus
+
+- hosts: localhost
+
+  roles:
+    - role: samba

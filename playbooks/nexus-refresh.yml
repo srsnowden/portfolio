@@ -8,6 +8,7 @@
     - role: nexus
     - role: pihost
     - role: sshd
+      in_if: eth0
     - role: samba
     - role: avahi
     - role: fw_default
