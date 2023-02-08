@@ -4,6 +4,7 @@
     src: /mnt/ark01/backup/dist
     dest: "{{ dist.home }}"
   become: true
+  when: rebuild == "yes"
 
 - name: copy laptop key from backup
   copy:
@@ -12,3 +13,4 @@
     owner: strider
     group: strider
   become: true
+  when: rebuild == "yes"
