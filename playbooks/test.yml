@@ -4,8 +4,4 @@
 
   roles:
     - role: nexus
-
-- hosts: localhost
-
-  roles:
-    - role: samba
+      rebuild: yes

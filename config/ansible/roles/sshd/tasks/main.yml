@@ -35,7 +35,6 @@
     chain: INPUT
     source: "{{ item }}"
     protocol: tcp
-    destination: "{{ ansible_host }}"
     destination_port: 22
     in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT

@@ -1,0 +1,14 @@
+---
+- name: sync dist from backup
+  ansible.posix.synchronize:
+    src: /mnt/ark01/backup/dist
+    dest: "{{ dist.home }}"
+  become: true
+
+- name: copy laptop key from backup
+  copy:
+    src: /mnt/ark01/backup/strider/authorized_keys
+    dest: /home/strider/.ssh/authorized_keys
+    owner: strider
+    group: strider
+  become: true
