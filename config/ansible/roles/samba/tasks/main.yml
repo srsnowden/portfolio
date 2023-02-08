@@ -105,3 +105,21 @@
           valid user = {{ share.archuser }}
   notify: "restart smbd"
   become: true
+
+- name: accept smb from pcs and prox hosts
+  iptables:
+    chain: INPUT
+    source: "{{ item }}"
+    destination: "{{ hostvars['nexus'].ansible_host }}"
+    protocol: tcp
+    destination_ports:
+      - "139"
+      - "445"
+    in_interface: eth0
+    jump: ACCEPT
+  loop:
+   - "{{ hostvars['tower'].ansible_host }}"
+   - "{{ hostvars['laptop'].ansible_host }}"
+   - "{{ hostvars['boxy'].ansible_host }}"
+   - "{{ hostvars['cubey'].ansible_host }}"
+  become: true

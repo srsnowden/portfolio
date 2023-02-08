@@ -8,5 +8,6 @@
     - role: nexus
     - role: pihost
     - role: sshd
+    - role: samba
     - role: fw_default
       in_if: eth0
