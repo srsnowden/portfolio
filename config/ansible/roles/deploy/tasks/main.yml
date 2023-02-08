@@ -9,7 +9,7 @@
     - "{{ dist.cert }}/{{ cert.star_fc }}"
   become: true
   notify: "restart nginx"
-  tags: d_proxycert
+  when: dep == "proxycert"
 
 - name: Sync cats site
   ansible.posix.synchronize:
@@ -17,4 +17,4 @@
     dest: "{{ www.cats }}"
   become: true
   notify: "restart nginx"
-  tags: d_wwwcats
+  when: dep == "wwwcats"

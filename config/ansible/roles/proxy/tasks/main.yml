@@ -13,14 +13,16 @@
   notify: "restart nginx"
 
 - name: Import deploy - proxy certificates
-  import_role:
+  include_role:
     name: deploy
-  tags: d_proxycert
+  vars: 
+    dep: proxycert
 
 - name: Import deploy - cats site
-  import_role:
+  include_role:
     name: deploy
-  tags: d_wwwcats
+  vars: 
+    dep: wwwcats
 
 - name: fw input - accept all http/s
   iptables:
