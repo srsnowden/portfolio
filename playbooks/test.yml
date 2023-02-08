@@ -3,4 +3,4 @@
 - hosts: localhost
 
   roles:
-    - role: nexus
+    - role: samba
