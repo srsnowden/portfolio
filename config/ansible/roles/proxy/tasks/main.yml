@@ -12,13 +12,13 @@
   become: true
   notify: "restart nginx"
 
-- name: Include deploy - proxy certificates
-  include_role:
+- name: Import deploy - proxy certificates
+  import_role:
     name: deploy
   tags: d_proxycert
 
-- name: Include deploy - cats site
-  include_role:
+- name: Import deploy - cats site
+  import_role:
     name: deploy
   tags: d_wwwcats
 
