@@ -1,6 +1,9 @@
 ﻿---
 
-- hosts: palantir
+- hosts: localhost
 
   roles:
-    - role: proxy
+    - role: cert
+      cert_cn: "*.spencers.house"
+      cert_name: star.spencers.house
+      pkcs12: create
