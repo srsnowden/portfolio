@@ -4,4 +4,4 @@
 
   roles:
     - role: nexus
-      rebuild: rebuild
+      rebuild: yes

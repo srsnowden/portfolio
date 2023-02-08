@@ -2,7 +2,7 @@
 - name: sync dist from backup
   ansible.posix.synchronize:
     src: /mnt/ark01/backup/dist
-    dest: "{{ dist.home }}"
+    dest: /
   become: true
 
 - name: copy laptop key from backup
