@@ -8,6 +8,15 @@ server:
   proxy: palantir
   proxmain: boxy
 
+share:
+  pubuser: pippin
+  pubdir: /mnt/ark01/share
+  archuser: gandalf
+  archpass: $6$zlNYWfOy5dEPyuCZ$MOu8Jk112JILoo5TtxmSLn9JFCxpqOlLW.J//lpInmsG8HuaMiJwbx5zjpm1OQpgZfRQ1mURHNM5Kg/tgHU2p.
+  archdir: /mnt/ark01/archive
+  proxuser: gandalf
+  proxdir: /mnt/ark01/proxstore
+
 dist:
   home: /dist
   cats: /dist/cats

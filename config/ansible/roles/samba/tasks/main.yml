@@ -1,0 +1,34 @@
+﻿---
+- name: Install samba
+  apt:
+    name:
+      - samba
+  become: true
+
+- name: Create public share user
+  user:
+    name: "{{ share.pubuser }}"
+    shell: /sbin/nologin
+    create_home: no
+  become: true
+
+- name: Create private share user
+  user:
+    name: "{{ share.archuser }}"
+    password: "{{ share.archpass }}"
+    shell: /sbin/nologin
+    create_home: no
+  become: true
+
+- name: Chown share directories to share users
+  file:
+    path: "{{ item.dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ item.usr }}"
+    group: "{{ item.grp }}"
+  loop:
+    - { dir: "{{ share.pubdir }}", usr: "{{ share.pubuser }}", grp: "{{ share.pubuser }}" }
+    - { dir: "{{ share.archdir }}", usr: "{{ share.archuser }}", grp: "{{ share.archuser }}" }
+    - { dir: "{{ share.proxdir }}", usr: "{{ share.pubuser }}", grp: "{{ share.pubuser }}" }
+  become: true

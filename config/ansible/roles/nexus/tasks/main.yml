@@ -1,0 +1,49 @@
+﻿---
+- name: Mount external drive
+  ansible.posix.mount:
+    path: /mnt/ark01
+    src: LABEL=ark01
+    fstype: ext4
+    state: mounted
+  become: true
+
+- name: Create dist
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ dist.home }}"
+    - "{{ dist.cats }}"
+    - "{{ dist.cert }}"
+  become: true
+
+- name: Change dist ownership
+  file:
+    path: "{{ dist.home }}"
+    state: directory
+    recurse: yes
+    owner: aragorn
+    group: aragorn
+  become: true
+
+- name: Set permissions on ansible ssh key
+  file:
+    path: "{{ ansible_ssh_private_key_file }}"
+    state: touch
+    mode: 0600
+    modification_time: preserve
+    access_time: preserve
+  become: true
+
+- name: Install packages
+  apt:
+    name:
+      - sshpass
+  become: true
+
+- name: Install Python libraries
+  pip:
+    name: "{{ item }}"
+  loop:
+    - Pillow
+    - yattag

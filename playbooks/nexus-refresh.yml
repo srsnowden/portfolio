@@ -1,0 +1,12 @@
+﻿---
+
+- hosts: localhost
+
+  roles:
+    - role: user
+      setup:user: strider
+    - role: nexus
+    - role: pihost
+    - role: sshd
+    - role: fw_default
+      in_if: eth0

@@ -1,7 +1,6 @@
 ﻿---
 
-- hosts: cubey
+- hosts: localhost
 
   roles:
-    - role: sshd
-    - role: fw_default
+    - role: samba
