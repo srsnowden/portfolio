@@ -4,7 +4,7 @@
 
   roles:
     - role: user
-      setup:user: strider
+      setup_user: strider
     - role: nexus
     - role: pihost
     - role: sshd
