@@ -26,19 +26,9 @@
     state: directory
   become: true
 
-- name: Add public key (ansible user)
-  ansible.posix.authorized_key:
-    user: "{{ setup_user }}"
-    state: present
-    key: https://github.com/srsnowden.keys
-  become: true
-  when: setup_user == "sybil"
-
-- name: Add public key (admin user)
+- name: Add public key
   copy:
-    src: '/home/{{ setup_user }}/.ssh/authorized_keys'
+    src: '/dist/keys/{{ setup_user }}'
     dest: '/home/{{ setup_user }}/.ssh/authorized_keys'
   become: true
-  when: 
-    - setup_user != "sybil"
-    - ansible_hostname != server.hub
+  when: ansible_hostname != server.hub

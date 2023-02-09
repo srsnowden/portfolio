@@ -21,6 +21,7 @@ dist:
   home: /dist
   cats: /dist/cats
   cert: /dist/cert
+  keys: /dist/keys
   temp: /dist/temp
   
 cert:

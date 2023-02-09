@@ -5,9 +5,9 @@
     dest: /
   become: true
 
-- name: copy laptop key from backup
+- name: copy laptop public key to user directory
   copy:
-    src: /mnt/ark01/backup/strider/authorized_keys
+    src: "{{ dist.keys }}/strider"
     dest: /home/strider/.ssh/authorized_keys
     owner: strider
     group: strider
