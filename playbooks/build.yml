@@ -15,7 +15,7 @@
 
   tasks:
     - add_host:
-        name: "{{ hostvars['palantir'].ansible_host }}"
+        name: "{{ hostvars['pihole'].ansible_host }}"
         ansible_user: "{{ username }}"
         ansible_password: "{{ userpass }}"
         groups: sybil_temp
@@ -26,7 +26,7 @@
     - role: user
       setup_user: sybil
 
-- hosts: palantir
+- hosts: pihole
 
   roles:
     - role: user
@@ -34,4 +34,3 @@
     - role: user
       setup_user: strider
     - role: sshd
-    - role: fw_default
