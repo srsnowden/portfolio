@@ -17,7 +17,7 @@ up_dir = "/mnt/ark01/share/Uploads"
 im_dir = "/dist/temp/images"
 th_dir = "/dist/temp/thumbs"
 
-imglist = next(os.walk(up_dir))[2]
+imglist = next(os.walk(im_dir))[2]
 
 imgnum = int(sorted(imglist, reverse=True)[0][:-4]) + 1
 
