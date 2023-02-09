@@ -13,3 +13,4 @@
 
   roles:
     - role: d_cats
+      notify: testify
