@@ -1,7 +1,7 @@
 ---
 - name: Sync cats site
   ansible.posix.synchronize:
-    src: "{{ dist.cats }}"
+    src: "{{ dist.cats }}/"
     dest: "{{ www.cats }}"
   become: true
   notify: "restart nginx"
