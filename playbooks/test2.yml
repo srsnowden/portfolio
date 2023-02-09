@@ -1,0 +1,12 @@
+﻿---
+
+- hosts: localhost
+
+  tasks:
+    - name: copy laptop public key to user directory
+      copy:
+        src: /dist/keys/strider
+        dest: /home/strider/.ssh/authorized_keys
+        owner: strider
+        group: strider
+      become: true
