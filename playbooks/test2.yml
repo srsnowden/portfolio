@@ -5,7 +5,7 @@
   tasks:
     - name: Create dist
       file:
-        path: "{{ item.value }}"
+        path: "{{ item }}"
         state: directory
       loop:
         - "{{ dist }}"
