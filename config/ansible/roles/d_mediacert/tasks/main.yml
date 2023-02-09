@@ -2,6 +2,6 @@
 - name: Copy star certificate to media
   copy:
     src: "{{ dist.cert }}/{{ cert.star_p12 }}"
-    dest: /etc/jellyfin/{{ cert.star_p12 }}"
+    dest: /etc/jellyfin/{{ cert.star_p12 }}
     force: true
   become: true
