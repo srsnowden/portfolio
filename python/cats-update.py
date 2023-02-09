@@ -15,7 +15,7 @@ doc, tag, text = Doc().tagtext()
 
 up_dir = "/mnt/ark01/share/Uploads"
 im_dir = "/dist/temp/images"
-th_dir = "/dist/temp/thumbs"
+th_dir = "/dist/temp/thumbnails"
 
 imglist = next(os.walk(im_dir))[2]
 
