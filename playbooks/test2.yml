@@ -8,5 +8,5 @@
         path: "{{ item.value }}"
         state: directory
       loop:
-        - "{{ lookup('dict', dist) }}"
+        - "{{ dist | dict2items }}"
       become: true
