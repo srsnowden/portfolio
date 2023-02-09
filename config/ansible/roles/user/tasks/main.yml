@@ -28,7 +28,7 @@
 
 - name: Add public key
   copy:
-    src: '/dist/keys/{{ setup_user }}'
+    src: "{{ dist.keys }}/{{ setup_user }}"
     dest: '/home/{{ setup_user }}/.ssh/authorized_keys'
   become: true
   when: ansible_hostname != server.hub
