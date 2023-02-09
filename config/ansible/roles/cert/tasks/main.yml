@@ -1,27 +1,27 @@
 ---
 - name: generate temporary acme request key
   openssl_privatekey:
-    path: "{{ dist.temp }}/acme-key.pem"
+    path: "{{ dist['temp'] }}/acme-key.pem"
     size: 4096
 
 - name: generate private key
   openssl_privatekey:
-    path: "{{ dist.temp }}/{{ cert_name }}.pem"
+    path: "{{ dist['temp'] }}/{{ cert_name }}.pem"
     size: 4096
 
 - name: generate csr
   openssl_csr:
-    path: "{{ dist.temp }}/{{ cert_name }}.csr"
-    privatekey_path: "{{ dist.temp }}/{{ cert_name }}.pem"
+    path: "{{ dist['temp'] }}/{{ cert_name }}.csr"
+    privatekey_path: "{{ dist['temp'] }}/{{ cert_name }}.pem"
     common_name: "{{ cert_cn }}"
 
 - name: create acme challenge
   acme_certificate:
     acme_version: 2
     terms_agreed: yes
-    account_key_src: "{{ dist.temp }}/acme-key.pem"
-    src: "{{ dist.temp }}/{{ cert_name }}.csr"
-    cert: "{{ dist.temp }}/{{ cert_name }}.crt"
+    account_key_src: "{{ dist['temp'] }}/acme-key.pem"
+    src: "{{ dist['temp'] }}/{{ cert_name }}.csr"
+    cert: "{{ dist['temp'] }}/{{ cert_name }}.crt"
     challenge: dns-01
     acme_directory: https://acme-v02.api.letsencrypt.org/directory
     remaining_days: 60
@@ -48,11 +48,11 @@
 - name: validate acme challenge
   acme_certificate:
     acme_version: 2
-    account_key_src: "{{ dist.temp }}/acme-key.pem"
-    src: "{{ dist.temp }}/{{ cert_name }}.csr"
-    cert: "{{ dist.temp }}/{{ cert_name }}.crt"
-    fullchain: "{{ dist.temp }}/{{ cert_name }}-fullchain.crt"
-    chain: "{{ dist.temp }}/{{ cert_name}}-intermediate.crt"
+    account_key_src: "{{ dist['temp'] }}/acme-key.pem"
+    src: "{{ dist['temp'] }}/{{ cert_name }}.csr"
+    cert: "{{ dist['temp'] }}/{{ cert_name }}.crt"
+    fullchain: "{{ dist['temp'] }}/{{ cert_name }}-fullchain.crt"
+    chain: "{{ dist['temp'] }}/{{ cert_name}}-intermediate.crt"
     challenge: dns-01
     acme_directory: https://acme-v02.api.letsencrypt.org/directory
     remaining_days: 60
@@ -62,7 +62,7 @@
 
 - name: remove temporary acme key
   openssl_privatekey:
-    path: "{{ dist.temp }}/acme-key.pem"
+    path: "{{ dist['temp'] }}/acme-key.pem"
     state: absent
   when: challenge is changed
 
@@ -71,5 +71,5 @@
   when: pkcs12 == "create"
 
  - name: move to cert folder
-   shell: "mv {{ dist.temp }}/* {{ dist.cert }}/"
+   shell: "mv {{ dist['temp'] }}/* {{ dist['cert'] }}/"
    become: true

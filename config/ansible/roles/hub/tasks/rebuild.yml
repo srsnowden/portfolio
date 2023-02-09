@@ -7,7 +7,7 @@
 
 - name: copy laptop public key to user directory
   copy:
-    src: "{{ dist.keys }}/strider"
+    src: "{{ dist['keys'] }}/strider"
     dest: /home/strider/.ssh/authorized_keys
     owner: strider
     group: strider

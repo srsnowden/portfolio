@@ -1,7 +1,7 @@
 ---
 - name: generate pkcs12
   openssl_pkcs12:
-    path: "{{ dist.temp }}/{{ cert_name }}.p12"
-    certificate_path: "{{ dist.temp }}/{{ cert_name }}-fullchain.crt"
-    privatekey_path: "{{ dist.temp }}/{{ cert_name }}.pem"
+    path: "{{ dist['temp'] }}/{{ cert_name }}.p12"
+    certificate_path: "{{ dist['temp'] }}/{{ cert_name }}-fullchain.crt"
+    privatekey_path: "{{ dist['temp'] }}/{{ cert_name }}.pem"
     friendly_name: "{{ cert_name }}"
