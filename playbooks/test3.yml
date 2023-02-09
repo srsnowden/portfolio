@@ -5,7 +5,7 @@
   tasks:
     - name: test
       debug:
-        msg: "{{ path }}"
+        msg: "{{ item }}"
       loop:
         - "{{ dist | dict2items(value_name='path') }}"
       become: true
