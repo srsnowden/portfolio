@@ -5,7 +5,7 @@
   tasks:
     - name: test
       debug:
-        msg: "{{ item.value }}"
+        msg: "{{ value }}"
       loop:
         - "{{ dist | dict2items }}"
       become: true
