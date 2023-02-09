@@ -3,8 +3,11 @@
 - hosts: localhost
 
   tasks:
-    - name: Run python script and clear upload directory
-      shell: "python /repos/serenity/python/cats-update.py && sudo rm /mnt/ark01/share/Uploads/*"
+    - name: Run python script
+      shell: "python /repos/serenity/python/cats-update.py"
+
+    - name: Clear uploads directory
+      shell: "sudo rm /mnt/ark01/share/Uploads/*"
 
 - hosts: palantir
 
