@@ -7,6 +7,6 @@
       file:
         path: "{{ item.value }}"
         state: directory
-      with_items:
+      loop:
         - "{{ dist }}"
       become: true
