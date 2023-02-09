@@ -12,3 +12,8 @@
     owner: strider
     group: strider
   become: true
+
+- name: Include cronjob - star cert
+  include_role:
+    name: c_cert
+  
