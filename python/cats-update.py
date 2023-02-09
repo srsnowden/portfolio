@@ -5,17 +5,11 @@ import PIL
 from PIL import Image
 from yattag import Doc, indent
 
-#piclist = next(os.walk("C:\Serenity\Test\images"))[2]
-#picnum = int(sorted(piclist, reverse=True)[0][:-4]) + 1
-#srcdir = "uploads"
-#dstdir = "images"
-#thmdir = "thumbnails"
-
 doc, tag, text = Doc().tagtext()
 
 up_dir = "/mnt/ark01/share/Uploads"
-im_dir = "/dist/temp/images"
-th_dir = "/dist/temp/thumbnails"
+im_dir = "/dist/cats/images"
+th_dir = "/dist/cats/thumbnails"
 
 imglist = next(os.walk(im_dir))[2]
 
@@ -58,8 +52,8 @@ with tag('html', ('lang', 'en')):
     with tag('body'):
         with tag('center'):
             while i > 0:
-                im_name = f"{im_dir}/" + str(i) + ".jpg"
-                th_name = f"{th_dir}/" + str(i) + "a.jpg"
+                im_name = "images/" + str(i) + ".jpg"
+                th_name = "thumbnails/" + str(i) + "a.jpg"
                 with tag('div', klass='column'):
                     with tag('div', klass='gallery'):
                         with tag('a', ('target', '_blank'), ('href', f"{im_name}")):
@@ -68,5 +62,5 @@ with tag('html', ('lang', 'en')):
 
 result = indent(doc.getvalue())
 
-with open('/dist/temp/index.html', 'w') as f:
+with open('/dist/cats/index.html', 'w') as f:
     f.writelines(result)

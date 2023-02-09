@@ -1,6 +1,6 @@
 ﻿---
 
-- hosts: localhost
+- hosts: palantir
 
   roles:
-    - role: c_cert
+    - role: d_cats
