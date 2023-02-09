@@ -1,0 +1,11 @@
+﻿---
+
+- hosts: localhost
+
+  tasks:
+    - name: test
+      debug:
+        msg: "{{ item }}"
+      loop:
+        - "{{ dist }}"
+      become: true
