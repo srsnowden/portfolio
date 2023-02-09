@@ -5,8 +5,8 @@
   tasks:
     - name: Create dist
       file:
-        path: "{{ item }}"
+        path: "{{ item.value }}"
         state: directory
       with_items:
-        - " {{ dist }} "
+        - "{{ dist }}"
       become: true
