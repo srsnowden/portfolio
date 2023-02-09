@@ -68,5 +68,5 @@ with tag('html', ('lang', 'en')):
 
 result = indent(doc.getvalue())
 
-with open('index.html', 'w') as f:
+with open('/dist/temp/index.html', 'w') as f:
     f.writelines(result)
