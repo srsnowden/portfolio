@@ -1,6 +1,6 @@
 ﻿---
 
-- hosts: palantir
+- hosts: localhost
 
   roles:
-    - role: d_proxycert
+    - role: c_cert

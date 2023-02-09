@@ -17,3 +17,15 @@
 
   roles:
     - role: d_mediacert
+
+- hosts: localhost
+
+  tasks:
+    - name: Set cronjob - renew certificate
+      cron:
+        name: "renew certificate"
+        minute: 0
+        hour: 4
+        day: 1
+        month: "*/2"
+        job: "/home/aragorn/.local/bin/ansible-playbook /repos/serenity/playbooks/cert-star.yml"
