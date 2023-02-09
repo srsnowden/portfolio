@@ -1,6 +1,6 @@
 ﻿---
 
-- hosts: media
+- hosts: palantir
 
   roles:
-    - role: d_mediacert
+    - role: d_proxycert
