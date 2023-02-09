@@ -58,7 +58,7 @@ with tag('html', ('lang', 'en')):
     with tag('body'):
         with tag('center'):
             while i > 0:
-                im_name = f"{im_dir}/" str(i) + ".jpg"
+                im_name = f"{im_dir}/" + str(i) + ".jpg"
                 th_name = f"{th_dir}/" + str(i) + "a.jpg"
                 with tag('div', klass='column'):
                     with tag('div', klass='gallery'):
