@@ -3,9 +3,8 @@
 - hosts: localhost
 
   tasks:
-    - name: thing
+    - name: test
       debug:
         msg: "{{ item.value }}"
-      loop:
-        - "{{ dist | dict2items }}"
+      loop: "{{ dist | dict2items }}"
       become: true
