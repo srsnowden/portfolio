@@ -14,3 +14,8 @@
   roles:
     - role: d_cats
       notify: testify
+
+  handlers:
+    - name: testify
+      debug:
+        msg: "hi"
