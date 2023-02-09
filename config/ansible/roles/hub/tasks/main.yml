@@ -9,13 +9,9 @@
 
 - name: Create dist
   file:
-    path: "{{ item }}"
+    path: "{{ item.value }}"
     state: directory
-  loop:
-    - "{{ dist.home }}"
-    - "{{ dist.cats }}"
-    - "{{ dist.cert }}"
-    - "{{ dist.temp }}"
+  loop: "{{ dist | dict2items }}"
   become: true
 
 - name: Change dist ownership
