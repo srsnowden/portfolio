@@ -13,9 +13,9 @@ from yattag import Doc, indent
 
 doc, tag, text = Doc().tagtext()
 
-up_dir = "/mnt/ark01/share/uploads"
-im_dir = "/dist/cats/images"
-th_dir = "/dist/cats/thumbs"
+up_dir = "/mnt/ark01/share/Uploads"
+im_dir = "/dist/temp/images"
+th_dir = "/dist/temp/thumbs"
 
 imglist = next(os.walk(up_dir))[2]
 
