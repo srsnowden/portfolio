@@ -1,0 +1,19 @@
+﻿---
+
+- hosts: localhost
+
+  roles:
+    - role: cert
+      cert_cn: "*.spencers.house"
+      cert_name: star.spencers.house
+      pkcs12: create
+
+- hosts: palantir
+  
+  roles:
+    - role: d_proxycert
+
+- hosts: media
+
+  roles:
+    - role: d_mediacert

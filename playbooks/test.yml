@@ -1,10 +1,6 @@
 ﻿---
 
-- hosts: localhost
+- hosts: media
 
   roles:
-    - role: cert
-      cert_cn: "*.spencers.house"
-      cert_name: star.spencers.house
-      pkcs12: create
-    - role: d_proxycert
+    - role: d_mediacert
