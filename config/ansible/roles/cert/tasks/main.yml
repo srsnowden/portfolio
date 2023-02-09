@@ -70,6 +70,6 @@
   import_tasks: pkcs12.yml
   when: pkcs12 == "create"
 
- - name: move to cert folder
-   shell: "mv {{ dist['temp'] }}/* {{ dist['cert'] }}/"
-   become: true
+- name: move to cert folder
+  shell: "mv {{ dist['temp'] }}/* {{ dist['cert'] }}/"
+  become: true
