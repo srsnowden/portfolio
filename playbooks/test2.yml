@@ -5,8 +5,8 @@
   tasks:
     - name: Create dist
       file:
-        path: "{{ item.value }}"
+        path: "{{ item.1.value }}"
         state: directory
       loop:
-        - "{{ dist | dict2items }}"
+        - "{{ dist }}"
       become: true
