@@ -16,9 +16,9 @@ imglist = next(os.walk(im_dir))[2]
 imgnum = int(sorted(imglist, reverse=True)[0][:-4]) + 1
 
 for count, filename in enumerate(os.listdir(up_dir)):
-    im_name = str(imgnum) + ".jpg"
+    im_name = str(imgnum).zfill(3)
     src = f"{up_dir}/{filename}"
-    dst = f"{up_dir}/{im_name}"
+    dst = f"{up_dir}/{im_name}.jpg"
 
     os.rename(src,dst)
 
@@ -27,8 +27,7 @@ for count, filename in enumerate(os.listdir(up_dir)):
 
     shutil.copy(src,dst)
 
-    th_name = str(imgnum) + "a.jpg"
-    th_dst = f"{th_dir}/{th_name}"
+    th_dst = f"{th_dir}/{im_name}a.jpg"
 
     img = Image.open(src)
     width = int(img.size[0]/5)
@@ -52,8 +51,8 @@ with tag('html', ('lang', 'en')):
     with tag('body'):
         with tag('center'):
             while i > 0:
-                im_name = "images/" + str(i) + ".jpg"
-                th_name = "thumbnails/" + str(i) + "a.jpg"
+                im_name = "images/" + str(i).zfill(3) + ".jpg"
+                th_name = "thumbnails/" + str(i).zfill(3) + "a.jpg"
                 with tag('div', klass='column'):
                     with tag('div', klass='gallery'):
                         with tag('a', ('target', '_blank'), ('href', f"{im_name}")):
