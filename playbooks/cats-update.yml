@@ -1,0 +1,6 @@
+﻿---
+
+- hosts: mail
+
+  roles:
+    - role: d_mailcert
