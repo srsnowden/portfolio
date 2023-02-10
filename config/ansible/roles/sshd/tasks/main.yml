@@ -5,7 +5,7 @@
     regexp: (^PasswordAuthentication*|^\#PasswordAuthentication*)
     line: PasswordAuthentication no
   become: true
-  notify: "restart sshd"
+  notify: "restart ssh"
 
 - name: Comment out root login setting
   lineinfile:
@@ -13,7 +13,7 @@
     regexp: (^PermitRootLogin*|^\#PermitRootLogin*)
     line: '#PermitRootLogin prohibit-password'
   become: true
-  notify: "restart sshd"
+  notify: "restart ssh"
 
 - name: Set allowed users - default
   blockinfile:
@@ -24,7 +24,7 @@
       AllowUsers sybil@{{ hostvars['nexus'].ansible_host }}
     marker: "# {mark} DEFAULT SSH USERS"
   become: true
-  notify: "restart sshd"
+  notify: "restart ssh"
 
 - name: Add root to allowed users - proxmox
   import_tasks: proxmox.yml

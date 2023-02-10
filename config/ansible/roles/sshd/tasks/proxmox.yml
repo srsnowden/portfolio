@@ -6,7 +6,7 @@
     marker: "# {mark} PROXMOX SSH USER"
   become: true
   when: ansible_hostname != server.proxmain
-  notify: "restart sshd"
+  notify: "restart ssh"
 
 - name: Set allowed user - prox main
   blockinfile:
@@ -15,4 +15,4 @@
     marker: "# {mark} PROXMOX SSH USER"
   become: true
   when: ansible_hostname == server.proxmain
-  notify: "restart sshd"
+  notify: "restart ssh"
