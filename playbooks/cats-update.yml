@@ -1,6 +1,15 @@
 ﻿---
 
-- hosts: mail
+- hosts: localhost
+
+  tasks:
+    - name: Run python script
+      shell: "python /repos/serenity/python/cats-update.py"
+
+    - name: Clear uploads directory
+      shell: "rm /mnt/ark01/share/Uploads/*"
+
+- hosts: palantir
 
   roles:
-    - role: d_mailcert
+    - role: d_cats
