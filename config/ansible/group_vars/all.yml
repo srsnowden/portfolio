@@ -27,9 +27,11 @@ dist:
 cert:
   star_name: star.spencers.house
   star_pem: star.spencers.house.pem
-  star_int: star.spencers.house-intermediate.crt
   star_fc: star.spencers.house-fullchain.crt
   star_p12: star.spencers.house.p12
+  mail_name: mail.spencers.house
+  mail_pem: mail.spencers.house.pem
+  mail_fc: mail.spencers.house-fullchain.crt
 
 
 www:

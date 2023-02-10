@@ -1,0 +1,10 @@
+---
+- name: Copy mail certificate
+  copy:
+    src: "{{ item }}"
+    dest: /etc/ssl/private/
+    force: true
+  loop:
+    - "{{ dist.cert }}/{{ cert.mail_pem }}"
+    - "{{ dist.cert }}/{{ cert.mail_fc }}"
+  become: true
