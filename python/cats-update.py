@@ -23,7 +23,7 @@ for count, filename in enumerate(os.listdir(up_dir)):
     os.rename(src,dst)
 
     src = dst
-    dst = f"{im_dir}/{im_name}"
+    dst = f"{im_dir}/{im_name}.jpg"
 
     shutil.copy(src,dst)
 
