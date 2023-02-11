@@ -40,6 +40,7 @@
   apt:
     name:
       - sshpass
+      - git
   become: true
 
 - name: Install Python libraries

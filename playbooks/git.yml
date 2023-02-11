@@ -3,7 +3,7 @@
 - hosts: localhost
 
   tasks:
-    - name: Git update
+    - name: Git pull
       git:
         repo: git@github.com:srsnowden/serenity.git
         dest: /repos/serenity

@@ -9,9 +9,10 @@
         host: "{{ hostvars['mail'].ansible_host }}"
         password: "{{ webmeowster_pw }}"
         username: webmeowster@spencers.house
-        sender: webmeowster@spencers.house
+        sender: Spencers Cats <webmeowster@spencers.house>
         subtype: html
         port: 587
         to: srsnowden@gmail.com
+        bcc: kasedo@live.com
         subject: Hello pt. 4
         body: 'https://cats.spencers.house has been updated with new pictures'
