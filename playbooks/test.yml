@@ -12,7 +12,6 @@
         sender: 'Spencer''s Cats <webmeowster@spencers.house>'
         subtype: html
         port: 587
-        to: srsnowden@gmail.com
-        bcc: kasedo@live.com
-        subject: Hello pt. 4
-        body: 'https://cats.spencers.house has been updated with new pictures'
+        bcc: srsnowden@gmail.com
+        subject: Hello pt. 5
+        body: '<a href="https://cats.spencers.house">cats.spencers.house</a> has been updated with new pictures'
