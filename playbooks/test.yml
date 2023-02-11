@@ -7,6 +7,7 @@
     - name: Send test mail
       community.general.mail:
         host: localhost
+        port: 587
         username: webmeowster
         password: DRCYrAyM^Lt$9e
         to: srsnowden@gmail.com
