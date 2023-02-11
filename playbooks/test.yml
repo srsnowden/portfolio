@@ -7,7 +7,7 @@
     - name: Send test mail
       community.general.mail:
         host: "{{ hostvars['mail'].ansible_host }}"
-        username: webmeowster
+        username: webmeowster@spencers.house
         password: DRCYrAyM^Lt$9e
         sender: webmeowster@spencers.house
         to: srsnowden@gmail.com
