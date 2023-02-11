@@ -12,6 +12,11 @@
         sender: 'Spencer''s Cats <webmeowster@spencers.house>'
         subtype: html
         port: 587
-        bcc: srsnowden@gmail.com
-        subject: Hello pt. x
-        body: '<a href="https://cats.spencers.house">https://cats.spencers.house</a> has been updated with new pictures.  Enjoy!'
+        bcc:
+          - srsnowden@gmail.com
+          - kasedo@live.com
+        subject: Hello pt. x2
+        body: |
+          <a href="https://cats.spencers.house">https://cats.spencers.house</a> has been updated with new pictures.  Enjoy!
+          <br><br>
+          Please reply to this e-mail with any questions or concerns.
