@@ -8,7 +8,7 @@
       community.general.mail:
         host: "{{ hostvars['mail'].ansible_host }}"
         password: DRCYrAyM^Lt$9e
-        sender: webmeowster@spencers.house
+        username: webmeowster@spencers.house
         to: srsnowden@gmail.com
         subject: Hello pt. 2
         body: Hello from ansible
