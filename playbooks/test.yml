@@ -9,6 +9,7 @@
         host: "{{ hostvars['mail'].ansible_host }}"
         password: DRCYrAyM^Lt$9e
         username: webmeowster@spencers.house
+        port: 587
         to: srsnowden@gmail.com
         subject: Hello pt. 2
         body: Hello from ansible
