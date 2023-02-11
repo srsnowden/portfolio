@@ -7,11 +7,11 @@
     - name: Send test mail
       community.general.mail:
         host: "{{ hostvars['mail'].ansible_host }}"
-        password: test
+        password: "{{ webmeowster_pw }}"
         username: webmeowster@spencers.house
         sender: 'Spencer''s Cats <webmeowster@spencers.house>'
         subtype: html
         port: 587
         bcc: srsnowden@gmail.com
-        subject: Hello pt. 5
-        body: '<a href="https://cats.spencers.house">cats.spencers.house</a> has been updated with new pictures'
+        subject: Hello pt. x
+        body: '<a href="https://cats.spencers.house">https://cats.spencers.house</a> has been updated with new pictures.  Enjoy!'
