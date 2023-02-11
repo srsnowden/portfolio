@@ -1,6 +1,7 @@
 ﻿---
 
-- hosts: mail
+- hosts: pihole
 
   roles:
-    - role: d_mailcert
+    - role: pihole
+    - role: fw_default

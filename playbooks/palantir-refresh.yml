@@ -7,7 +7,7 @@
       setup_user: aragorn
     - role: user
       setup_user: strider
-    - role: pihost
+    - role: raspi
     - role: sshd
     - role: proxy
     - role: fw_default
