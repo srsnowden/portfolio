@@ -1,12 +1,12 @@
 ﻿---
 
-- hosts: localhost
+- hosts: mail
 
   tasks:
 
     - name: Send test mail
       community.general.mail:
-        host: mail.spencers.house
+        host: localhost
         username: webmeowster
         password: DRCYrAyM^Lt$9e
         to: srsnowden@gmail.com
