@@ -3,6 +3,9 @@
 ansible_user: sybil
 ansible_ssh_private_key_file: /home/aragorn/.ssh/sybil
 
+webmeowster_pw: "{{ vault_webmeowster_pw }}"
+
+
 server:
   hub: nexus
   proxy: palantir
