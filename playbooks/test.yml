@@ -1,7 +1,7 @@
 ﻿---
 
-- hosts: pihole
+- hosts: media
 
   roles:
-    - role: pihole
+    - role: media
     - role: fw_default

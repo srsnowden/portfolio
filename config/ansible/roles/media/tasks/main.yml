@@ -1,0 +1,9 @@
+---
+- name: fw input - open jellyfin https to lan
+  iptables:
+    chain: INPUT
+    source: 192.168.0.0/16
+    protocol: tcp
+    destination_port: 8920
+    jump: ACCEPT
+  become: true
