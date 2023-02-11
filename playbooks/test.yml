@@ -1,14 +1,15 @@
 ﻿---
 
-- hosts: mail
+- hosts: localhost
 
   tasks:
 
     - name: Send test mail
       community.general.mail:
-        host: localhost
+        host: "{{ hostvars['mail'].ansible_host }}"
         username: webmeowster
         password: DRCYrAyM^Lt$9e
+        sender: webmeowster@spencers.house
         to: srsnowden@gmail.com
         subject: Hello pt. 2
         body: Hello from ansible
