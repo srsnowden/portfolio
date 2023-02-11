@@ -1,0 +1,13 @@
+﻿---
+
+- hosts: localhost
+
+  roles:
+    - role: cert
+      cert_cn: "mail.spencers.house"
+      cert_name: mail.spencers.house
+
+- hosts: mail
+  
+  roles:
+    - role: d_mailcert

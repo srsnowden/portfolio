@@ -1,5 +1,5 @@
 ---
-- name: fw input - open jellyfin https to lan
+- name: fw input - open jellyfin https port to lan
   iptables:
     chain: INPUT
     source: 192.168.0.0/16

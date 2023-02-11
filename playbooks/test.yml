@@ -1,7 +1,14 @@
 ﻿---
 
-- hosts: media
+- hosts: localhost
 
-  roles:
-    - role: media
-    - role: fw_default
+  tasks:
+
+    - name: Send test mail
+      community.general.mail:
+        host: mail.spencers.house
+        username: webmeowster
+        password: DRCYrAyM^Lt$9e
+        to: srsnowden@gmail.com
+        subject: Hello pt. 2
+        body: Hello from ansible
