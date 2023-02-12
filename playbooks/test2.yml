@@ -4,3 +4,4 @@
 
   roles:
     - role: syncthing
+      in_if: eth0

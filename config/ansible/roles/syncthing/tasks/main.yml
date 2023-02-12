@@ -60,6 +60,5 @@
     destination_ports:
       - 22000
       - 21027
-    in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT
   become: true
