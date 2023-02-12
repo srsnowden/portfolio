@@ -23,6 +23,5 @@
         destination_ports:
           - 22000
           - 21027
-        in_interface: eth0
         jump: ACCEPT
       become: true
