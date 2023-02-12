@@ -5,7 +5,7 @@
   tasks:
     - name: accept syncthing tcp traffic
       iptables:
-       chain: INPUT
+        chain: INPUT
         source: 192.168.0.0/24
         protocol: tcp
         destination_ports:
