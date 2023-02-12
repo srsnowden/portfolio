@@ -2,3 +2,8 @@
 
 - hosts: localhost
 
+  tasks:
+    - name: enable syncthing service
+      service:
+        name: syncthing
+        enabled: yes
