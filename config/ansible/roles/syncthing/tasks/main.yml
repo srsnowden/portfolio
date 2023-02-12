@@ -39,3 +39,27 @@
     - { from: '{{ dist.cert }}/{{ cert.star_pem }}', to: '/home/aragorn/.config/syncthing/https-key.pem'}
     - { from: '{{ dist.cert }}/{{ cert.star_fc }}', to: '/home/aragorn/.config/syncthing/https-cert.pem'}
   become: true
+
+- name: accept syncthing tcp traffic
+  iptables:
+    chain: INPUT
+    source: 192.168.0.0/24
+    protocol: tcp
+    destination_ports:
+      - 8384
+      - 22000
+    in_interface: "{{ in_if | default(omit) }}"
+    jump: ACCEPT
+  become: true
+
+- name: accept syncthing udp traffic
+  iptables:
+    chain: INPUT
+    source: 192.168.0.0/24
+    protocol: udp
+    destination_ports:
+      - 22000
+      - 21027
+    in_interface: "{{ in_if | default(omit) }}"
+    jump: ACCEPT
+  become: true
