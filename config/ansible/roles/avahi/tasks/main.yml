@@ -59,8 +59,10 @@
 - name: accept mDNS traffic on all interfaces
   iptables:
     chain: INPUT
-    source: 192.168.0.0/16
+    source: 192.168.0.0/24
     protocol: udp
-    destination_port: 5353
+    destination_ports:
+      - 5353
+      - 21027
     jump: ACCEPT
   become: true

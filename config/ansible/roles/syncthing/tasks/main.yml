@@ -55,8 +55,7 @@
     chain: INPUT
     source: 192.168.0.0/24
     protocol: udp
-    destination_ports:
-      - 22000
-      - 21027
+    destination_port: 22000
+    in_interface: "{{ in_if | default(omit) }}"
     jump: ACCEPT
   become: true
