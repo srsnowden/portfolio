@@ -18,4 +18,4 @@
 
   tasks:
     - name: Schedule update e-mail
-      shell: "echo 'ansible-playbook /repos/serenity/playbooks/cats-update-at.yml' | at 18:00"
+      shell: "echo 'ansible-playbook /repos/serenity/playbooks/cats-update-at.yml' | at 12:00 tomorrow"

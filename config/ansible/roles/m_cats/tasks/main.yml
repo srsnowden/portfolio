@@ -3,7 +3,7 @@
     host: "{{ hostvars['mail'].ansible_host }}"
     password: "{{ webmeowster_pw }}"
     username: webmeowster@spencers.house
-    sender: 'Spencer''s Cats <webmeowster@spencers.house>'
+    sender: 'Humphrey & Annabelle <webmeowster@spencers.house>'
     subtype: html
     port: 587
     to: ''

@@ -2,6 +2,5 @@
 
 - hosts: localhost
 
-  tasks:
-    - name: Schedule update e-mail
-      shell: "echo 'ansible-playbook /repos/serenity/playbooks/cats-update-at.yml' | at 18:00"
+  roles:
+    - role: m_cats
