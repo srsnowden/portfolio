@@ -7,3 +7,10 @@
       service:
         name: syncthing@aragorn.service
         enabled: yes
+      become: true
+
+    - name: start syncthing service
+      service:
+        name: syncthing@aragorn.service
+        state: started
+      become: true
