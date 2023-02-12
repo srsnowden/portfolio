@@ -3,14 +3,26 @@
 - hosts: localhost
 
   tasks:
-    - name: enable syncthing service
-      service:
-        name: syncthing@aragorn.service
-        enabled: yes
+    - name: accept syncthing tcp traffic
+      iptables:
+       chain: INPUT
+        source: 192.168.0.0/24
+        protocol: tcp
+        destination_ports:
+          - 8384
+          - 22000
+        in_interface: eth0
+        jump: ACCEPT
       become: true
 
-    - name: start syncthing service
-      service:
-        name: syncthing@aragorn.service
-        state: started
+    - name: accept syncthing udp traffic
+      iptables:
+        chain: INPUT
+        source: 192.168.0.0/24
+        protocol: udp
+        destination_ports:
+          - 22000
+          - 21027
+        in_interface: eth0
+        jump: ACCEPT
       become: true
