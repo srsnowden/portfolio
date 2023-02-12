@@ -12,7 +12,7 @@
         sender: 'Spencer''s Cats <webmeowster@spencers.house>'
         subtype: html
         port: 587
-        to: "{{ omit }}"
+        to: null
         bcc:
           - srsnowden@gmail.com
           - kasedo@live.com
