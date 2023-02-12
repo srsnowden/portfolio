@@ -1,4 +1,4 @@
-- name: Send test mail
+- name: Send cats update
   community.general.mail:
     host: "{{ hostvars['mail'].ansible_host }}"
     password: "{{ webmeowster_pw }}"
@@ -9,7 +9,5 @@
     to: ''
     bcc:
       - srsnowden@gmail.com
-      - kasedo@live.com
     subject: New pictures!
-    body: |
-      <a href="https://cats.spencers.house">https://cats.spencers.house</a> has been updated with new pictures.  Enjoy!
+    body: 'New pictures have been added to <a href="https://cats.spencers.house">https://cats.spencers.house</a>.  Enjoy!'

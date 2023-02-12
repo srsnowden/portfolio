@@ -41,6 +41,7 @@
     name:
       - sshpass
       - git
+      - at
   become: true
 
 - name: Install Python libraries
