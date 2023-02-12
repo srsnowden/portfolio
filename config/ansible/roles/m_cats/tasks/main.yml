@@ -6,7 +6,7 @@
     sender: 'Spencer''s Cats <webmeowster@spencers.house>'
     subtype: html
     port: 587
-    to: null
+    to: ''
     bcc:
       - srsnowden@gmail.com
       - kasedo@live.com
