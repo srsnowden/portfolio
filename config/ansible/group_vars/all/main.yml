@@ -29,7 +29,6 @@ dist:
   cats: /dist/cats
   cert: /dist/cert
   keys: /dist/keys
-  temp: /dist/temp
   
 cert:
   star_name: star.spencers.house

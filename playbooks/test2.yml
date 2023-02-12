@@ -3,6 +3,5 @@
 - hosts: localhost
 
   roles:
-    - role: avahi
     - role: syncthing
       in_if: eth0
