@@ -11,5 +11,7 @@
       in_if: eth0
     - role: samba
     - role: avahi
+    - role: syncthing
+      in_if: eth0
     - role: fw_default
       in_if: eth0
