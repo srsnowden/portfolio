@@ -22,3 +22,4 @@
     path: /home/aragorn/.config/syncthing/config.xml
     regexp: '^<address>'
     line: '<address>0.0.0.0:8384</address>'
+  become: true
