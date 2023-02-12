@@ -5,5 +5,5 @@
   tasks:
     - name: enable syncthing service
       service:
-        name: syncthing
+        name: syncthing@aragorn.service
         enabled: yes
