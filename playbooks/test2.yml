@@ -1,6 +1,6 @@
 ﻿---
 
-- hosts: localhost
+- hosts: sync
 
   roles:
     - role: syncthing
