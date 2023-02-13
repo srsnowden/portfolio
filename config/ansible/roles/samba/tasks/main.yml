@@ -29,7 +29,6 @@
     group: "{{ item.grp }}"
   loop:
     - { dir: "{{ share.pubdir }}", usr: "{{ share.pubuser }}", grp: "{{ share.pubuser }}" }
-    - { dir: "{{ share.archdir }}", usr: "{{ share.archuser }}", grp: "{{ share.archuser }}" }
     - { dir: "{{ share.proxdir }}", usr: "{{ share.archuser }}", grp: "{{ share.archuser }}" }
   become: true
 
@@ -68,15 +67,6 @@
           directory mask = 0777
           force user = {{ share.pubuser }}
           force group = {{ share.pubuser }}
-
-      [archive]
-          path = {{ share.archdir }}
-          writable = yes
-          printable = no
-          public = no
-          create mask = 0777
-          directory mask = 0777
-          valid user = {{ share.archuser }}
 
       [backups]
           path = {{ share.proxdir }}/backups

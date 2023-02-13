@@ -43,7 +43,7 @@
 - name: accept syncthing tcp traffic
   iptables:
     chain: INPUT
-    source: 192.168.0.0/24
+    source: 192.168.0.0/16
     protocol: tcp
     destination_ports:
       - 8384
@@ -55,7 +55,7 @@
 - name: accept syncthing udp traffic
   iptables:
     chain: INPUT
-    source: 192.168.0.0/24
+    source: 192.168.0.0/16
     protocol: udp
     destination_port: 22000
     in_interface: "{{ in_if | default(omit) }}"
