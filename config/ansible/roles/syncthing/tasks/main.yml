@@ -25,7 +25,7 @@
   become: true
   loop:
     - { match: '^        \<address', paste: '        <address>0.0.0.0:8384</address>' }
-    - { match: '^    <gui', paste: '    <gui enabled="true" tls="true" debugging="false">' }
+    - { match: '^    <gui', paste: '    <gui enabled="true" tls="false" debugging="false">' }
   notify: restart syncthing
 
 - name: copy https certs
