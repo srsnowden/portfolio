@@ -28,18 +28,6 @@
     - { match: '^    <gui', paste: '    <gui enabled="true" tls="false" debugging="false">' }
   notify: restart syncthing
 
-- name: copy https certs
-  copy:
-    src: "{{ item.from }}"
-    dest: "{{ item.to }}"
-    owner: aragorn
-    group: aragorn
-    mode: 0600
-  loop:
-    - { from: '{{ dist.cert }}/{{ cert.star_pem }}', to: '/home/aragorn/.config/syncthing/https-key.pem'}
-    - { from: '{{ dist.cert }}/{{ cert.star_fc }}', to: '/home/aragorn/.config/syncthing/https-cert.pem'}
-  become: true
-
 - name: accept syncthing tcp traffic
   iptables:
     chain: INPUT
