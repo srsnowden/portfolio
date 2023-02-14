@@ -9,9 +9,8 @@
     to: ''
     bcc:
       - srsnowden@gmail.com
-      - awsnowden@gmail.com
-      - snowdendelores@gmail.com
-      - snowder1@hotmail.com
-      - michellehondros@gmail.com
     subject: New pics!
-    body: 'Some new pictures have been added to <a href="https://cats.spencers.house">https://cats.spencers.house</a>.  Hope you enjoy!'
+    body: |
+      Some new pictures have been added to <a href="https://cats.spencers.house">https://cats.spencers.house</a>.  Hope you enjoy!
+      <br>
+      <p style="font-size:0.8em">This is an automated update message.  To be removed from future updates (and possibly hurt Annable and/or Humphrey's feelings) you can reply to this message.</p>
