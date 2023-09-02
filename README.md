@@ -15,5 +15,6 @@ Python script for first-time setup of Raspberry Pi used as hub server.
 - Mounts external drive to /mnt/ark01
 - Creates /repos/serenity and clones repo
 - Creates /etc/ansible and populates with config from repo folder
+- Creates soft link to playbooks folder in user folder
 - Runs nexus-refresh playbook
 - Restarts pi
