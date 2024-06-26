@@ -1,20 +1,11 @@
-# fabfile.py
-Python script for first-time setup of Raspberry Pi used as hub server.
+Public duplicate of a private project from early 2023.  The primary goal of this project was to manage system configuration/deployment and automate a few tasks on a home network; this is done mostly with Ansible, with a couple Python scripts included.  Everything was personally written with the exception of config/ansible/roles/cert/tasks/main.yml which was largely based off of an online sample.
 
-### Requirements
-- Pyton and fabric installed on local computer
-- Raspberry pi set up with user aragorn
-- Public ssh key for human user
-- Private ssh key for git repo
+The basic intent was for python/fabfile.py to serve as a bootstrapper - it could be run from any computer with Python (and the fabric library) to connect to a local linux system, install Ansible, and sync this repo; that devive would then be used as the system "hub" to run further Ansible playbooks.
 
-### Output
-- Updates packages
-- Adds user /.local/bin to $PATH
-- Installs Ansible
-- Creates user .ssh directory and copies keys
-- Mounts external drive to /mnt/ark01
-- Creates /repos/serenity and clones repo
-- Creates /etc/ansible and populates with config from repo folder
-- Creates soft link to playbooks folder in user folder
-- Runs nexus-refresh playbook
-- Restarts pi
+### System Components
+- Nexus: raspberry pi, hub - ran Ansible, and was also a file server/multicast DNS repeater.
+- Palantir: raspberry pi, web server - hosted webpage with pictures of my cats. 
+- Boxy/Cubey: intel NUCs, proxmox cluster - hosted Proxmox virtualization platform, mainly used for running debian containers.
+- Mikro: Mikrotik hEX S, router
+- Switch: Cisco SG350-10
+- Trident: TP Link router acting as wireless AP
