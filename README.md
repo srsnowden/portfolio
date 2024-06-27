@@ -25,6 +25,7 @@ Almost all of the Ansible tasks were written in roles, the playbooks primarily e
 - sshd - ssh configuration
 - syncthing - installs and configures syncthing
 - user - user setup
+- python/cats-update.py - python script to update cats site with new pictures
 
 ### System Inventory
 - Nexus: raspberry pi, hub - ran Ansible, and was also a file server/multicast DNS repeater
