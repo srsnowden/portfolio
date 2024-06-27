@@ -1,6 +1,0 @@
-﻿---
-
-- hosts: localhost
-
-  roles:
-    - role: m_cats
